@@ -43,3 +43,25 @@ All production images are located in [`c:\Users\AlekeyG11\Documents\VsCode\bee_w
 3. **Honey Butter Cream** — $26.00 (Velvety)
 4. **Bee's Shield Propolis** — $32.00 (Health)
 5. **Pure Cut Honeycomb** — $35.00 (Raw)
+
+## 6. How to Customize Images & Spotlight Size
+
+### Changing Background Images
+- **Base Atmospheric Background Layer 1 (`#layer-sky`):** Edit `.sky-gradient` in [`styles.css`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/styles.css) or replace `.sky-gradient` with an `<img>` tag in [`index.html`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/index.html).
+- **Spotlight Revealed Image Layer 2 (`.spotlight-reveal-layer`):** To change the revealed image, replace `src="assets/wildflower_field.jpg"` in line 83 of [`index.html`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/index.html) with your desired image path.
+
+### Adjusting Spotlight Size & Softness
+- Open [`styles.css`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/styles.css) and edit the `--spotlight-radius` property in `:root`:
+  ```css
+  --spotlight-radius: clamp(160px, 24vw, 320px); /* Adjust min/max radius */
+  ```
+- To change edge softness, adjust the percentages inside `radial-gradient` in `.spotlight-reveal-layer`:
+  ```css
+  mask-image: radial-gradient(
+    circle var(--spotlight-radius) at var(--spotlight-x) var(--spotlight-y),
+    rgba(0, 0, 0, 1) 0%,   /* Center opacity */
+    rgba(0, 0, 0, 0.7) 45%,/* Mid blur transition */
+    rgba(0, 0, 0, 0) 100%  /* Soft outer boundary */
+  );
+  ```
+

@@ -462,29 +462,21 @@ body {
   will-change: transform, opacity;
 }
 
-.flying-bee-wrapper {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: beeFloatingBob 3.5s infinite ease-in-out alternate;
-}
-
 .bee-glow-aura {
   position: absolute;
-  width: 140%;
-  height: 140%;
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.65) 0%, rgba(245, 158, 11, 0.25) 50%, transparent 75%);
-  filter: blur(25px);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.45) 0%, rgba(245, 158, 11, 0.15) 45%, rgba(0, 0, 0, 0) 70%);
   border-radius: 50%;
+  pointer-events: none;
   animation: pulseGlow 3s infinite alternate ease-in-out;
 }
 
 .golden-bee-svg {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
+  position: relative;
+  z-index: 2;
 }
 
 .bee-wings {

@@ -180,6 +180,10 @@
     mouseYCurrent: 0,
     mouseXTarget: 0,
     mouseYTarget: 0,
+    spotlightCurrentX: 50,
+    spotlightCurrentY: 50,
+    spotlightTargetX: 50,
+    spotlightTargetY: 50,
     sliderIndex: 0,
     cart: []
   };
@@ -304,8 +308,14 @@
     state.mouseXCurrent = lerp(state.mouseXCurrent, state.mouseXTarget, 0.08);
     state.mouseYCurrent = lerp(state.mouseYCurrent, state.mouseYTarget, 0.08);
 
+    // Smooth spotlight lerp tracking
+    state.spotlightCurrentX = lerp(state.spotlightCurrentX, state.spotlightTargetX, 0.15);
+    state.spotlightCurrentY = lerp(state.spotlightCurrentY, state.spotlightTargetY, 0.15);
+
     root.style.setProperty('--mx', state.mouseXCurrent);
     root.style.setProperty('--my', state.mouseYCurrent);
+    root.style.setProperty('--spotlight-x', `${state.spotlightCurrentX.toFixed(2)}%`);
+    root.style.setProperty('--spotlight-y', `${state.spotlightCurrentY.toFixed(2)}%`);
 
     updateScrollChoreography(state.scrollCurrent);
 
@@ -313,16 +323,12 @@
   }
 
   // Spotlight Mask Tracking (Mouse & Touch Events)
-  const heroStage = document.getElementById('cinema') || document.querySelector('.stage');
-  
   function updateSpotlightCoordinates(clientX, clientY) {
-    if (!heroStage) return;
-    const rect = heroStage.getBoundingClientRect();
-    const x = clamp(((clientX - rect.left) / rect.width) * 100, 0, 100);
-    const y = clamp(((clientY - rect.top) / rect.height) * 100, 0, 100);
+    const x = clamp((clientX / window.innerWidth) * 100, 0, 100);
+    const y = clamp((clientY / window.innerHeight) * 100, 0, 100);
 
-    root.style.setProperty('--spotlight-x', `${x.toFixed(2)}%`);
-    root.style.setProperty('--spotlight-y', `${y.toFixed(2)}%`);
+    state.spotlightTargetX = x;
+    state.spotlightTargetY = y;
   }
 
   // Mouse Move & Touch tracking
