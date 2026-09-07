@@ -1385,9 +1385,21 @@ animation: ringPulse 2.5s infinite ease-in-out;
   contain-intrinsic-size: 1px 600px;
 }
 
+/* Touch & Pointer Device Resets */
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  #cursor-ring,
+  .cursor-spotlight-halo,
+  .cursor-target-ring {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   .cinema-scroll {
-    height: 1100px;
+    height: 1000px;
   }
 
   .stage,
@@ -1397,9 +1409,7 @@ animation: ringPulse 2.5s infinite ease-in-out;
   }
 
   /* Disable heavy GPU operations on mobile for maximum battery & 120fps smoothness */
-  #ambient-bees-canvas,
-  .cursor-spotlight-halo,
-  .cursor-target-ring {
+  #ambient-bees-canvas {
     display: none !important;
   }
 
@@ -1413,49 +1423,80 @@ animation: ringPulse 2.5s infinite ease-in-out;
   }
 
   .site-header {
-    padding: 10px 16px;
+    padding: 8px 12px;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    gap: 8px;
+  }
+
+  .site-logo-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .site-logo span {
+    font-size: 0.85rem;
+    white-space: nowrap;
   }
 
   .site-nav {
     display: flex;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 20px;
+    overflow-x: auto;
+    max-width: 48vw;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 3px 6px;
+    gap: 4px;
+    border-radius: 16px;
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-link {
-    padding: 6px 10px;
-    font-size: 0.8rem;
+    padding: 5px 9px;
+    font-size: 0.74rem;
+    flex-shrink: 0;
   }
 
   .hero-title {
-    font-size: clamp(3rem, 16vw, 5.5rem);
+    font-size: clamp(2.8rem, 14vw, 4.8rem);
     letter-spacing: 0.06em;
   }
 
   .flying-bee-layer {
-    width: clamp(200px, 55vw, 320px);
-    height: clamp(200px, 55vw, 320px);
+    width: clamp(160px, 45vw, 240px);
+    height: clamp(160px, 45vw, 240px);
+  }
+
+  .intro-copy p {
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .story-panel .panel-content {
-    padding: 20px 16px;
-    margin: 0 12px;
-    max-width: calc(100vw - 24px);
+    padding: 18px 14px;
+    margin: 0 10px;
+    max-width: calc(100vw - 20px);
   }
 
   .story-panel h2 {
-    font-size: clamp(1.4rem, 5.5vw, 2rem);
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
   }
 
   .sights-slider-wrapper {
-    padding: 0 12px;
+    padding: 0 10px;
   }
 
   .sight-card {
-    flex: 0 0 calc(100vw - 48px);
-    max-width: 310px;
-    min-height: 400px;
+    flex: 0 0 calc(100vw - 40px);
+    max-width: 300px;
+    min-height: 380px;
   }
 
   .cart-drawer {
@@ -1463,7 +1504,12 @@ animation: ringPulse 2.5s infinite ease-in-out;
     max-width: 100vw;
   }
 
-  .cart-trigger,
+  .cart-trigger {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    min-height: 40px;
+  }
+
   .control-btn,
   .add-cart-btn,
   .cta-button {
