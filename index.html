@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Honey Harvest — Premium Artisan Honey & Apiary</title>
-  <meta name="description" content="Artisan raw honey harvested with care from wildflower meadows. Pure, unfiltered, direct from nature's smallest architects.">
+  <title>Honey Harvest — Miel Artesanal Pura y Apicultura</title>
+  <meta name="description"
+    content="Miel cruda artesanal cosechada con cuidado en prados de flores silvestres. Pura, sin filtrar y directa de la naturaleza.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- Ambient Bee Particles Canvas -->
@@ -25,22 +30,17 @@
         <span>Honey Harvest</span>
       </a>
 
-      <nav class="site-nav" aria-label="Main Navigation">
-        <a href="#cinema" class="nav-link active" data-i18n="nav_home">Home</a>
-        <a href="#beehives" class="nav-link" data-i18n="nav_beehives">Beehives</a>
-        <a href="#harvest" class="nav-link" data-i18n="nav_harvest">Process</a>
-        <a href="#shop" class="nav-link" data-i18n="nav_shop">Shop</a>
+      <nav class="site-nav" aria-label="Navegación Principal">
+        <a href="#cinema" class="nav-link active">Inicio</a>
+        <a href="#beehives" class="nav-link">Colmenas</a>
+        <a href="#harvest" class="nav-link">Proceso</a>
+        <a href="#shop" class="nav-link">Tienda</a>
       </nav>
 
       <div class="header-actions">
-        <button id="lang-switcher" class="language-switcher" aria-label="Toggle Language">
-          <span class="lang-code active" id="lang-en">EN</span>
-          <span class="lang-sep">/</span>
-          <span class="lang-code" id="lang-es">ES</span>
-        </button>
-
-        <button id="cart-btn" class="cart-trigger" aria-label="Shopping Cart">
-          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <button id="cart-btn" class="cart-trigger" aria-label="Carrito de Compras">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -51,129 +51,110 @@
     </header>
 
     <!-- Cinematic Scroll Section -->
-    <section class="cinema-scroll" id="cinema" aria-label="Honey Harvest cinematic scroll">
+    <section class="cinema-scroll" id="cinema" aria-label="Experiencia cinemática Honey Harvest">
       <div class="stage">
-        
+
         <!-- Parallax World Layers -->
         <div class="world" id="parallax-world">
-          
-          <!-- Layer 1: Sky Background (Golden Hour Sunrise) -->
-          <div class="scene-layer sky-layer" id="layer-sky">
-            <div class="sky-gradient"></div>
-            <div class="sun-glow"></div>
-            <div class="sky-clouds"></div>
+
+          <!-- Layer 1: Light Luminous Honeycomb Base Background -->
+          <div class="scene-layer light-base-layer" id="layer-light-base">
+            <img src="assets/luminous_honeycomb_bright.jpg" class="light-base-bg-img"
+              alt="Fondo Panal de Abeja Claro y Luminoso">
+            <div class="light-base-overlay"></div>
           </div>
 
-          <!-- Layer 2: Bee Glow & Golden Dust overlay -->
-          <div class="scene-layer back-img back-four" id="layer-glow">
-            <svg class="glow-vector" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <radialGradient id="honeyGlowGrad" cx="50%" cy="40%" r="50%">
-                  <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.8" />
-                  <stop offset="50%" stop-color="#d97706" stop-opacity="0.3" />
-                  <stop offset="100%" stop-color="#0f0903" stop-opacity="0" />
-                </radialGradient>
-              </defs>
-              <rect width="1200" height="800" fill="url(#honeyGlowGrad)" />
-            </svg>
+          <!-- Layer 2: Radiant Honey Harvest Reveal (Spotlight Mask Revealed) -->
+          <div class="scene-layer back-img back-bazaar spotlight-reveal-layer" id="layer-honey-reveal">
+            <img src="assets/luminous_honeycomb_bright.jpg" class="honey-reveal-bg-img"
+              alt="Cosecha de Miel Dorada Pura">
           </div>
 
-          <!-- Layer 3: Wildflower Field Landscape (Spotlight Mask Revealed) -->
-          <div class="scene-layer back-img back-bazaar spotlight-reveal-layer" id="layer-wildflowers">
-            <img src="assets/wildflower_field.jpg" class="wildflower-bg-img" alt="Wildflower Field Landscape">
-          </div>
+          <!-- Interactive Cursor Spotlight Halo & Target Ring -->
+          <div class="cursor-spotlight-halo" aria-hidden="true"></div>
+          <div class="cursor-target-ring" id="cursor-ring" aria-hidden="true"></div>
 
           <!-- Layer 4: Beehive Split Left Frame -->
           <div class="scene-layer splitframe-left" id="layer-split-left">
             <div class="hive-split-img-wrapper hive-left">
-              <img src="assets/beehive_frame.jpg" class="hive-frame-photo" alt="Beehive Left Frame">
+              <img src="assets/beehive_frame.jpg" class="hive-frame-photo" alt="Marco de Colmena Izquierda">
             </div>
           </div>
 
           <!-- Layer 5: Beehive Split Right Frame -->
           <div class="scene-layer splitframe-right" id="layer-split-right">
             <div class="hive-split-img-wrapper hive-right">
-              <img src="assets/beehive_frame.jpg" class="hive-frame-photo" alt="Beehive Right Frame">
+              <img src="assets/beehive_frame.jpg" class="hive-frame-photo" alt="Marco de Colmena Derecha">
             </div>
           </div>
 
-          <!-- Layer 6: Transparent Flying Golden Bee Element ("The Architect") -->
+          <!-- Layer 6: Transparent Flying Golden Bee Element -->
           <div class="scene-layer flying-bee-layer" id="layer-jar">
             <div class="flying-bee-wrapper" id="flying-bee">
-              <div class="bee-glow-aura"></div>
               <svg class="golden-bee-svg" viewBox="0 0 200 200" fill="none">
-                <!-- Bee Wings (Fluttering CSS Animation) -->
+                <!-- Soft Vector Bee Glow Aura -->
+                <circle cx="100" cy="100" r="95" fill="url(#beeAuraGrad)" />
+
+                <!-- Bee Wings -->
                 <g class="bee-wings">
-                  <ellipse cx="75" cy="70" rx="35" ry="55" transform="rotate(-35 75 70)" fill="url(#wingGrad)" opacity="0.8" stroke="#fef3c7" stroke-width="1.5"/>
-                  <ellipse cx="60" cy="85" rx="22" ry="38" transform="rotate(-25 60 85)" fill="url(#wingGrad)" opacity="0.65" stroke="#fef3c7" stroke-width="1"/>
-                  <ellipse cx="125" cy="70" rx="35" ry="55" transform="rotate(35 125 70)" fill="url(#wingGrad)" opacity="0.8" stroke="#fef3c7" stroke-width="1.5"/>
-                  <ellipse cx="140" cy="85" rx="22" ry="38" transform="rotate(25 140 85)" fill="url(#wingGrad)" opacity="0.65" stroke="#fef3c7" stroke-width="1"/>
+                  <ellipse cx="75" cy="70" rx="35" ry="55" transform="rotate(-35 75 70)" fill="url(#wingGrad)"
+                    opacity="0.85" stroke="#ca8a04" stroke-width="1.5" />
+                  <ellipse cx="60" cy="85" rx="22" ry="38" transform="rotate(-25 60 85)" fill="url(#wingGrad)"
+                    opacity="0.7" stroke="#ca8a04" stroke-width="1" />
+                  <ellipse cx="125" cy="70" rx="35" ry="55" transform="rotate(35 125 70)" fill="url(#wingGrad)"
+                    opacity="0.85" stroke="#ca8a04" stroke-width="1.5" />
+                  <ellipse cx="140" cy="85" rx="22" ry="38" transform="rotate(25 140 85)" fill="url(#wingGrad)"
+                    opacity="0.7" stroke="#ca8a04" stroke-width="1" />
                 </g>
-                
-                <!-- Bee Body Abdomen & Torso -->
+
+                <!-- Bee Body -->
                 <g class="bee-body">
-                  <!-- Stinger -->
-                  <polygon points="100,175 95,158 105,158" fill="#2d1810"/>
-                  
-                  <!-- Abdomen Golden & Black Stripes -->
-                  <ellipse cx="100" cy="130" rx="32" ry="38" fill="url(#bodyGrad)" stroke="#78350f" stroke-width="2"/>
-                  <path d="M72,118 Q100,126 128,118" stroke="#1c1917" stroke-width="6" stroke-linecap="round"/>
-                  <path d="M70,132 Q100,140 130,132" stroke="#1c1917" stroke-width="7" stroke-linecap="round"/>
-                  <path d="M74,146 Q100,154 126,146" stroke="#1c1917" stroke-width="6" stroke-linecap="round"/>
-                  
-                  <!-- Thorax (Golden Fur) -->
-                  <circle cx="100" cy="92" r="24" fill="url(#thoraxGrad)"/>
-                  <circle cx="100" cy="92" r="24" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 2"/>
-                  
-                  <!-- Head -->
-                  <circle cx="100" cy="68" r="16" fill="#2d1810"/>
-                  
-                  <!-- Eyes -->
-                  <ellipse cx="91" cy="66" rx="5" ry="7" fill="#fbbf24"/>
-                  <ellipse cx="109" cy="66" rx="5" ry="7" fill="#fbbf24"/>
-                  <circle cx="91" cy="66" r="2" fill="#0f0903"/>
-                  <circle cx="109" cy="66" r="2" fill="#0f0903"/>
-                  <circle cx="92" cy="64" r="1.5" fill="#ffffff"/>
-                  <circle cx="110" cy="64" r="1.5" fill="#ffffff"/>
-                  
-                  <!-- Antennae -->
-                  <path d="M94,54 Q82,38 72,40" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                  <circle cx="72" cy="40" r="2.5" fill="#f59e0b"/>
-                  <path d="M106,54 Q118,38 128,40" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                  <circle cx="128" cy="40" r="2.5" fill="#f59e0b"/>
+                  <polygon points="100,175 95,158 105,158" fill="#1f1610" />
+                  <ellipse cx="100" cy="130" rx="32" ry="38" fill="url(#bodyGrad)" stroke="#854d0e" stroke-width="2" />
+                  <path d="M72,118 Q100,126 128,118" stroke="#1f1610" stroke-width="6" stroke-linecap="round" />
+                  <path d="M70,132 Q100,140 130,132" stroke="#1f1610" stroke-width="7" stroke-linecap="round" />
+                  <path d="M74,146 Q100,154 126,146" stroke="#1f1610" stroke-width="6" stroke-linecap="round" />
+                  <circle cx="100" cy="92" r="24" fill="url(#thoraxGrad)" />
+                  <circle cx="100" cy="92" r="24" fill="none" stroke="#eab308" stroke-width="3"
+                    stroke-dasharray="4 2" />
+                  <circle cx="100" cy="68" r="16" fill="#1f1610" />
+                  <ellipse cx="91" cy="66" rx="5" ry="7" fill="#fef08a" />
+                  <ellipse cx="109" cy="66" rx="5" ry="7" fill="#fef08a" />
+                  <circle cx="91" cy="66" r="2" fill="#1f1610" />
+                  <circle cx="109" cy="66" r="2" fill="#1f1610" />
+                  <circle cx="92" cy="64" r="1.5" fill="#ffffff" />
+                  <circle cx="110" cy="64" r="1.5" fill="#ffffff" />
+                  <path d="M94,54 Q82,38 72,40" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round"
+                    fill="none" />
+                  <circle cx="72" cy="40" r="2.5" fill="#d97706" />
+                  <path d="M106,54 Q118,38 128,40" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round"
+                    fill="none" />
+                  <circle cx="128" cy="40" r="2.5" fill="#d97706" />
                 </g>
-                
-                <!-- Gradients -->
+
                 <defs>
                   <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="rgba(255, 255, 255, 0.95)" />
-                    <stop offset="50%" stop-color="rgba(251, 191, 36, 0.7)" />
-                    <stop offset="100%" stop-color="rgba(245, 158, 11, 0.3)" />
+                    <stop offset="50%" stop-color="rgba(254, 240, 138, 0.8)" />
+                    <stop offset="100%" stop-color="rgba(234, 179, 8, 0.4)" />
                   </linearGradient>
                   <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#fbbf24" />
-                    <stop offset="50%" stop-color="#f59e0b" />
-                    <stop offset="100%" stop-color="#b45309" />
+                    <stop offset="0%" stop-color="#fde047" />
+                    <stop offset="50%" stop-color="#eab308" />
+                    <stop offset="100%" stop-color="#ca8a04" />
                   </linearGradient>
-                  <radialGradient id="thoraxGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#d97706" />
-                    <stop offset="70%" stop-color="#78350f" />
-                    <stop offset="100%" stop-color="#2d1810" />
+                  <radialGradient id="beeAuraGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#fef08a" stop-opacity="0.65" />
+                    <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.25" />
+                    <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
                   </radialGradient>
                 </defs>
               </svg>
             </div>
           </div>
 
-          <!-- Layer 7: Frame Two Honey Flow / Bee Macro Layer -->
-          <div class="scene-layer frame-two-img" id="layer-honey-flow">
-            <div class="honey-drip-container">
-              <img src="assets/honey_flow_drip.jpg" class="honey-drip-photo" alt="Golden Honey Dripping Macro">
-            </div>
-          </div>
-
           <!-- Hero Main Title -->
-          <h1 class="hero-title" id="hero-title">HONEY</h1>
+          <h1 class="hero-title" id="hero-title">MIEL</h1>
 
           <!-- Background Shade Overlay -->
           <div class="shade" id="shade-overlay"></div>
@@ -182,16 +163,17 @@
 
         <!-- Act 1 Intro Copy Section -->
         <section class="intro-copy" id="intro-copy-section">
-          <p data-i18n="hero_subtitle">
-            From wildflower fields to your table. Raw, unfiltered, and crafted by nature's smallest architects.
+          <p>
+            De campos de flores silvestres a tu mesa. Miel cruda, 100% pura y elaborada por los arquitectos más pequeños
+            de la naturaleza.
           </p>
           <div class="hero-tags">
-            <span class="tag-badge" data-i18n="tag_raw">Raw & Unfiltered</span>
-            <span class="tag-badge" data-i18n="tag_natural">100% Natural</span>
-            <span class="tag-badge" data-i18n="tag_artisan">Artisan Sourced</span>
+            <span class="tag-badge">Cruda y Sin Filtrar</span>
+            <span class="tag-badge">100% Natural</span>
+            <span class="tag-badge">Origen Artesanal</span>
           </div>
           <div class="scroll-indicator" aria-hidden="true">
-            <span data-i18n="scroll_explore">Scroll to Explore</span>
+            <span>Desliza para Explorar</span>
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <polyline points="19 12 12 19 5 12"></polyline>
@@ -202,20 +184,20 @@
         <!-- Act 2 Story Panel 1: Beehives & Process -->
         <section class="story-panel story-panel-process" id="beehives">
           <div class="panel-content">
-            <span class="section-kicker" data-i18n="panel1_kicker">OUR APIARY</span>
-            <h2 data-i18n="panel1_title">The hive is where it begins.</h2>
-            <p data-i18n="panel1_desc">
-              Thousands of bees working in concert, collecting nectar from wildflower fields across the countryside. 
-              Each colony is a carefully balanced ecosystem we nurture with respect from spring to harvest.
+            <span class="section-kicker">NUESTRA APICULTURA</span>
+            <h2>En la colmena comienza todo.</h2>
+            <p>
+              Miles de abejas trabajando en armonía, recolectando néctar de flores silvestres.
+              Cada colonia es un ecosistema cuidadosamente nutrido con respeto desde la primavera hasta la cosecha.
             </p>
             <dl class="facts-grid">
               <div class="fact-item">
                 <dt>40,000+</dt>
-                <dd data-i18n="fact1_label">Bees per healthy hive</dd>
+                <dd>Abejas por colmena sana</dd>
               </div>
               <div class="fact-item">
-                <dt>6 Months</dt>
-                <dd data-i18n="fact2_label">Active foraging season</dd>
+                <dt>6 Meses</dt>
+                <dd>Temporada activa de recolección</dd>
               </div>
             </dl>
           </div>
@@ -224,15 +206,15 @@
         <!-- Act 2 Story Panel 2: Harvest & Benefits -->
         <section class="story-panel story-panel-benefits" id="harvest">
           <div class="panel-content">
-            <span class="section-kicker" data-i18n="panel2_kicker">PURE EXTRACTION</span>
-            <h2 data-i18n="panel2_title">Every drop tells a story.</h2>
-            <p data-i18n="panel2_desc">
-              We harvest only when the honey is perfectly mature, sealed by bees in wax. 
-              No high heating, no micro-filtering beyond what nature requires. 
-              This is real honey—rich with pollen, enzymes, and the unique terroir of seasonal blooms.
+            <span class="section-kicker">EXTRACCIÓN PURA</span>
+            <h2>Cada gota cuenta una historia.</h2>
+            <p>
+              Cosechamos solo cuando la miel está perfectamente madura y sellada en cera por las abejas.
+              Sin pasteurizar y sin microfiltrar. Miel auténtica, rica en polen, enzimas y el terroir único de cada
+              floración.
             </p>
-            <button class="cta-button note-button" id="explore-shop-btn" data-i18n="panel2_cta">
-              ↗ Explore our collection
+            <button class="cta-button note-button" id="explore-shop-btn">
+              ↗ Explorar nuestra colección
             </button>
           </div>
         </section>
@@ -241,11 +223,11 @@
     </section>
 
     <!-- Standalone Shop Section -->
-    <section class="shop-standalone-section" id="shop" aria-label="Honey Products Showcase">
+    <section class="shop-standalone-section" id="shop" aria-label="Muestra de Productos de Miel">
       <div class="shop-section-header">
-        <span class="section-kicker" data-i18n="shop_kicker">ARTISAN SELECTION</span>
-        <h2 data-i18n="shop_main_title">Pure Honey & Apiary Collection</h2>
-        <p data-i18n="shop_main_subtitle">Harvested in small batches with total respect for the bees and nature.</p>
+        <span class="section-kicker">SELECCIÓN ARTESANAL</span>
+        <h2>Colección de Miel Pura y Apicultura</h2>
+        <p>Cosechada en lotes pequeños con total respeto por las abejas y la naturaleza.</p>
       </div>
 
       <div class="sights-slider-wrapper">
@@ -253,157 +235,169 @@
           <div class="slider-track" id="slider-track">
 
             <!-- Card 1: Raw Spring Honey -->
-            <article class="sight-card" data-product-id="spring-honey" aria-label="Raw Spring Honey">
+            <article class="sight-card" data-product-id="spring-honey" aria-label="Miel Cruda de Primavera">
               <div class="card-inner">
                 <div class="card-image-wrap">
-                  <div class="card-badge">Seasonal</div>
+                  <div class="card-badge">Cosecha de Temporada</div>
                   <svg class="product-icon-svg" viewBox="0 0 100 100" fill="none">
                     <circle cx="50" cy="50" r="42" fill="url(#pGrad1)" />
-                    <ellipse cx="50" cy="52" rx="20" ry="14" fill="#0f0903"/>
-                    <ellipse cx="50" cy="52" rx="20" ry="14" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 6"/>
-                    <circle cx="64" cy="48" r="6" fill="#fef3c7"/>
-                    <path d="M42,34 Q32,18 46,26 Q50,34 42,34 Z" fill="rgba(255,255,255,0.7)"/>
-                    <path d="M52,34 Q62,18 48,26 Q44,34 52,34 Z" fill="rgba(255,255,255,0.7)"/>
+                    <ellipse cx="50" cy="52" rx="20" ry="14" fill="#1f1610" />
+                    <ellipse cx="50" cy="52" rx="20" ry="14" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8 6" />
+                    <circle cx="64" cy="48" r="6" fill="#fef08a" />
+                    <path d="M42,34 Q32,18 46,26 Q50,34 42,34 Z" fill="rgba(255,255,255,0.8)" />
+                    <path d="M52,34 Q62,18 48,26 Q44,34 52,34 Z" fill="rgba(255,255,255,0.8)" />
                     <defs>
                       <linearGradient id="pGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fef3c7" />
+                        <stop offset="0%" stop-color="#fef08a" />
                         <stop offset="100%" stop-color="#f59e0b" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
                 <div class="card-body">
-                  <span class="card-kicker" data-i18n="card1_kicker">Seasonal Harvest</span>
-                  <h3 data-i18n="card1_title">Raw Spring Honey</h3>
-                  <p data-i18n="card1_desc">First nectar of the season. Light, delicate floral notes from early wildflower blooms.</p>
+                  <span class="card-kicker">Cosecha de Temporada</span>
+                  <h3>Miel Cruda de Primavera</h3>
+                  <p>Primer néctar de la estación. Notas florales suaves y delicadas de las primeras floraciones
+                    silvestres.</p>
                   <div class="card-footer">
                     <span class="product-price">$24.00</span>
-                    <button class="add-cart-btn" data-id="spring-honey" data-name="Raw Spring Honey" data-price="24.00" data-i18n="add_to_cart">Add to Cart</button>
+                    <button class="add-cart-btn" data-id="spring-honey" data-name="Miel Cruda de Primavera"
+                      data-price="24.00">Añadir al Carrito</button>
                   </div>
                 </div>
               </div>
             </article>
 
             <!-- Card 2: Wildflower Blend -->
-            <article class="sight-card" data-product-id="wildflower-gold" aria-label="Wildflower Gold">
+            <article class="sight-card" data-product-id="wildflower-gold" aria-label="Oro de Flores Silvestres">
               <div class="card-inner">
                 <div class="card-image-wrap">
-                  <div class="card-badge">Best Seller</div>
+                  <div class="card-badge">Más Vendido</div>
                   <svg class="product-icon-svg" viewBox="0 0 100 100" fill="none">
                     <circle cx="50" cy="50" r="42" fill="url(#pGrad2)" />
-                    <circle cx="50" cy="50" r="10" fill="#78350f" />
-                    <circle cx="50" cy="30" r="8" fill="#fef3c7" />
-                    <circle cx="50" cy="70" r="8" fill="#fef3c7" />
-                    <circle cx="30" cy="50" r="8" fill="#fef3c7" />
-                    <circle cx="70" cy="50" r="8" fill="#fef3c7" />
+                    <circle cx="50" cy="50" r="10" fill="#854d0e" />
+                    <circle cx="50" cy="30" r="8" fill="#fef08a" />
+                    <circle cx="50" cy="70" r="8" fill="#fef08a" />
+                    <circle cx="30" cy="50" r="8" fill="#fef08a" />
+                    <circle cx="70" cy="50" r="8" fill="#fef08a" />
                     <circle cx="36" cy="36" r="8" fill="#fde047" />
                     <circle cx="64" cy="64" r="8" fill="#fde047" />
                     <circle cx="36" cy="64" r="8" fill="#fde047" />
                     <circle cx="64" cy="36" r="8" fill="#fde047" />
                     <defs>
                       <linearGradient id="pGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fef3c7" />
+                        <stop offset="0%" stop-color="#fef08a" />
                         <stop offset="100%" stop-color="#d97706" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
                 <div class="card-body">
-                  <span class="card-kicker" data-i18n="card2_kicker">Field Selection</span>
-                  <h3 data-i18n="card2_title">Wildflower Gold</h3>
-                  <p data-i18n="card2_desc">Complex, deep amber. Our signature blend harvested from rich, diverse summer pastures.</p>
+                  <span class="card-kicker">Selección de Campo</span>
+                  <h3>Oro de Flores Silvestres</h3>
+                  <p>Ámbar profundo y complejo. Nuestra mezcla emblemática recolectada en diversos prados de verano.</p>
                   <div class="card-footer">
                     <span class="product-price">$28.00</span>
-                    <button class="add-cart-btn" data-id="wildflower-gold" data-name="Wildflower Gold" data-price="28.00" data-i18n="add_to_cart">Add to Cart</button>
+                    <button class="add-cart-btn" data-id="wildflower-gold" data-name="Oro de Flores Silvestres"
+                      data-price="28.00">Añadir al Carrito</button>
                   </div>
                 </div>
               </div>
             </article>
 
             <!-- Card 3: Creamed Honey -->
-            <article class="sight-card" data-product-id="creamed-honey" aria-label="Creamed Honey Butter">
+            <article class="sight-card" data-product-id="creamed-honey" aria-label="Crema de Miel y Manteca">
               <div class="card-inner">
                 <div class="card-image-wrap">
-                  <div class="card-badge">Velvety</div>
+                  <div class="card-badge">Textura Sedosa</div>
                   <svg class="product-icon-svg" viewBox="0 0 100 100" fill="none">
                     <circle cx="50" cy="50" r="42" fill="url(#pGrad3)" />
-                    <ellipse cx="50" cy="50" rx="22" ry="16" fill="#fef9f0" stroke="#b45309" stroke-width="3"/>
-                    <path d="M35,50 Q50,40 65,50 Q50,60 35,50 Z" fill="#f59e0b"/>
+                    <ellipse cx="50" cy="50" rx="22" ry="16" fill="#fffdf7" stroke="#ca8a04" stroke-width="3" />
+                    <path d="M35,50 Q50,40 65,50 Q50,60 35,50 Z" fill="#f59e0b" />
                     <defs>
                       <linearGradient id="pGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fffbeb" />
-                        <stop offset="100%" stop-color="#b45309" />
+                        <stop offset="0%" stop-color="#fffdf7" />
+                        <stop offset="100%" stop-color="#ca8a04" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
                 <div class="card-body">
-                  <span class="card-kicker" data-i18n="card3_kicker">Artisan Texture</span>
-                  <h3 data-i18n="card3_title">Honey Butter Cream</h3>
-                  <p data-i18n="card3_desc">Slow-whipped pure honey crystallized into a velvety, spreadable dream. Melts effortlessly.</p>
+                  <span class="card-kicker">Textura Artesanal</span>
+                  <h3>Crema de Miel y Manteca</h3>
+                  <p>Miel pura batida lentamente hasta lograr una textura suave y untable que se derrite al paladar.</p>
                   <div class="card-footer">
                     <span class="product-price">$26.00</span>
-                    <button class="add-cart-btn" data-id="creamed-honey" data-name="Honey Butter Cream" data-price="26.00" data-i18n="add_to_cart">Add to Cart</button>
+                    <button class="add-cart-btn" data-id="creamed-honey" data-name="Crema de Miel y Manteca"
+                      data-price="26.00">Añadir al Carrito</button>
                   </div>
                 </div>
               </div>
             </article>
 
             <!-- Card 4: Propolis Tincture -->
-            <article class="sight-card" data-product-id="propolis-shield" aria-label="Propolis Shield Tincture">
+            <article class="sight-card" data-product-id="propolis-shield" aria-label="Propóleo Escudo de Abeja">
               <div class="card-inner">
                 <div class="card-image-wrap">
-                  <div class="card-badge">Health</div>
+                  <div class="card-badge">Salud Natural</div>
                   <svg class="product-icon-svg" viewBox="0 0 100 100" fill="none">
                     <circle cx="50" cy="50" r="42" fill="url(#pGrad4)" />
-                    <path d="M50,25 L72,32 C72,55 62,70 50,77 C38,70 28,55 28,32 L50,25 Z" fill="#78350f" stroke="#fbbf24" stroke-width="3"/>
-                    <path d="M50,33 L50,68" stroke="#fbbf24" stroke-width="2"/>
-                    <path d="M37,48 L63,48" stroke="#fbbf24" stroke-width="2"/>
+                    <path d="M50,25 L72,32 C72,55 62,70 50,77 C38,70 28,55 28,32 L50,25 Z" fill="#854d0e"
+                      stroke="#eab308" stroke-width="3" />
+                    <path d="M50,33 L50,68" stroke="#eab308" stroke-width="2" />
+                    <path d="M37,48 L63,48" stroke="#eab308" stroke-width="2" />
                     <defs>
                       <linearGradient id="pGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fef3c7" />
-                        <stop offset="100%" stop-color="#78350f" />
+                        <stop offset="0%" stop-color="#fef08a" />
+                        <stop offset="100%" stop-color="#854d0e" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
                 <div class="card-body">
-                  <span class="card-kicker" data-i18n="card4_kicker">Natural Remedy</span>
-                  <h3 data-i18n="card4_title">Bee's Shield Propolis</h3>
-                  <p data-i18n="card4_desc">Raw propolis extract tincture. Used by bees to protect the hive; packed with natural antioxidants.</p>
+                  <span class="card-kicker">Remedio Natural</span>
+                  <h3>Propóleo Escudo de Abeja</h3>
+                  <p>Tintura de extracto puro de propóleo. Utilizado por las abejas para proteger la colmena; lleno de
+                    antioxidantes.</p>
                   <div class="card-footer">
                     <span class="product-price">$32.00</span>
-                    <button class="add-cart-btn" data-id="propolis-shield" data-name="Bee's Shield Propolis" data-price="32.00" data-i18n="add_to_cart">Add to Cart</button>
+                    <button class="add-cart-btn" data-id="propolis-shield" data-name="Propóleo Escudo de Abeja"
+                      data-price="32.00">Añadir al Carrito</button>
                   </div>
                 </div>
               </div>
             </article>
 
             <!-- Card 5: Pure Honeycomb -->
-            <article class="sight-card" data-product-id="pure-comb" aria-label="Pure Honeycomb">
+            <article class="sight-card" data-product-id="pure-comb" aria-label="Panal de Miel Puro">
               <div class="card-inner">
                 <div class="card-image-wrap">
-                  <div class="card-badge">Raw</div>
+                  <div class="card-badge">Crudo & Puro</div>
                   <svg class="product-icon-svg" viewBox="0 0 100 100" fill="none">
                     <circle cx="50" cy="50" r="42" fill="url(#pGrad5)" />
-                    <polygon points="50,25 65,33 65,50 50,58 35,50 35,33" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
-                    <polygon points="72,38 87,46 87,63 72,71 57,63 57,46" fill="#fbbf24" stroke="#78350f" stroke-width="2"/>
-                    <polygon points="28,38 43,46 43,63 28,71 13,63 13,46" fill="#fbbf24" stroke="#78350f" stroke-width="2"/>
+                    <polygon points="50,25 65,33 65,50 50,58 35,50 35,33" fill="#f59e0b" stroke="#854d0e"
+                      stroke-width="2" />
+                    <polygon points="72,38 87,46 87,63 72,71 57,63 57,46" fill="#fde047" stroke="#854d0e"
+                      stroke-width="2" />
+                    <polygon points="28,38 43,46 43,63 28,71 13,63 13,46" fill="#fde047" stroke="#854d0e"
+                      stroke-width="2" />
                     <defs>
                       <linearGradient id="pGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fffbeb" />
+                        <stop offset="0%" stop-color="#fffdf7" />
                         <stop offset="100%" stop-color="#f59e0b" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
                 <div class="card-body">
-                  <span class="card-kicker" data-i18n="card5_kicker">Traditional</span>
-                  <h3 data-i18n="card5_title">Pure Cut Honeycomb</h3>
-                  <p data-i18n="card5_desc">Raw honey sealed in virgin beeswax. 100% edible comb cut directly from hive frames.</p>
+                  <span class="card-kicker">Tradicional</span>
+                  <h3>Panal de Miel Puro</h3>
+                  <p>Miel cruda sellada en cera virgen de abejas. Panal 100% comestible cortado directo de los marcos.
+                  </p>
                   <div class="card-footer">
                     <span class="product-price">$35.00</span>
-                    <button class="add-cart-btn" data-id="pure-comb" data-name="Pure Cut Honeycomb" data-price="35.00" data-i18n="add_to_cart">Add to Cart</button>
+                    <button class="add-cart-btn" data-id="pure-comb" data-name="Panal de Miel Puro"
+                      data-price="35.00">Añadir al Carrito</button>
                   </div>
                 </div>
               </div>
@@ -413,8 +407,8 @@
         </div>
 
         <!-- Sight Controls (Prev / Next Buttons & Indicators) -->
-        <div class="sights-controls" id="sights-controls" aria-label="Slider Controls">
-          <button class="control-btn prev-btn" id="slider-prev" aria-label="Previous Product">
+        <div class="sights-controls" id="sights-controls" aria-label="Controles de Navegación">
+          <button class="control-btn prev-btn" id="slider-prev" aria-label="Producto Anterior">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
@@ -426,7 +420,7 @@
             <span class="dot" data-index="3"></span>
             <span class="dot" data-index="4"></span>
           </div>
-          <button class="control-btn next-btn" id="slider-next" aria-label="Next Product">
+          <button class="control-btn next-btn" id="slider-next" aria-label="Siguiente Producto">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -441,30 +435,30 @@
         <div class="footer-brand">
           <div class="footer-logo">
             <svg viewBox="0 0 32 32" width="24" height="24" fill="none">
-              <polygon points="16,2 29,9.5 29,24.5 16,32 3,24.5 3,9.5" fill="#f59e0b"/>
+              <polygon points="16,2 29,9.5 29,24.5 16,32 3,24.5 3,9.5" fill="#f59e0b" />
             </svg>
             <span>Honey Harvest</span>
           </div>
-          <p data-i18n="footer_motto">Sustainably collected, ethically crafted, 100% pure artisan honey.</p>
+          <p>Recolectada de forma sostenible, elaborada éticamente, miel 100% artesanal y pura.</p>
         </div>
         <div class="footer-links">
           <div class="link-group">
-            <h4 data-i18n="footer_col1_title">Explore</h4>
-            <a href="#cinema" data-i18n="nav_home">Home</a>
-            <a href="#beehives" data-i18n="nav_beehives">Beehives</a>
-            <a href="#harvest" data-i18n="nav_harvest">Process</a>
-            <a href="#shop" data-i18n="nav_shop">Shop</a>
+            <h4>Explorar</h4>
+            <a href="#cinema">Inicio</a>
+            <a href="#beehives">Colmenas</a>
+            <a href="#harvest">Proceso</a>
+            <a href="#shop">Tienda</a>
           </div>
           <div class="link-group">
-            <h4 data-i18n="footer_col2_title">Philosophy</h4>
-            <span data-i18n="footer_p1">Zero Chemical Sprays</span>
-            <span data-i18n="footer_p2">Cold Extracted</span>
-            <span data-i18n="footer_p3">Bee Welfare First</span>
+            <h4>Filosofía</h4>
+            <span>Sin Químicos ni Pesticidas</span>
+            <span>Extracción en Frío</span>
+            <span>Bienestar Apícola Primero</span>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2026 Honey Harvest Apiaries. All rights reserved.</p>
+        <p>&copy; 2026 Honey Harvest Apiaries. Todos los derechos reservados.</p>
       </div>
     </footer>
 
@@ -474,8 +468,8 @@
   <div class="cart-drawer-overlay" id="cart-drawer-overlay" aria-hidden="true">
     <aside class="cart-drawer" id="cart-drawer">
       <div class="drawer-header">
-        <h3 data-i18n="cart_title">Your Honey Basket</h3>
-        <button class="close-drawer-btn" id="close-cart-btn" aria-label="Close Cart">&times;</button>
+        <h3>Tu Cesta de Miel</h3>
+        <button class="close-drawer-btn" id="close-cart-btn" aria-label="Cerrar Cesta">&times;</button>
       </div>
 
       <div class="drawer-body" id="cart-items-container">
@@ -484,17 +478,17 @@
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M12 8v4l3 3"></path>
           </svg>
-          <p data-i18n="empty_cart">Your basket is currently empty.</p>
+          <p>Tu cesta está vacía actualmente.</p>
         </div>
         <ul class="cart-item-list" id="cart-item-list"></ul>
       </div>
 
       <div class="drawer-footer">
         <div class="cart-subtotal">
-          <span data-i18n="subtotal">Subtotal</span>
+          <span>Subtotal</span>
           <span class="subtotal-amount" id="cart-subtotal">$0.00</span>
         </div>
-        <button class="checkout-btn" id="checkout-btn" data-i18n="checkout">Proceed to Checkout</button>
+        <button class="checkout-btn" id="checkout-btn">Proceder al Pago</button>
       </div>
     </aside>
   </div>
@@ -504,4 +498,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>

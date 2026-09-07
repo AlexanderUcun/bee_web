@@ -9,7 +9,7 @@
   /* ==========================================================================
      1. Mathematical Helper Functions
      ========================================================================== */
-  
+
   /** Linear Interpolation */
   function lerp(start, end, amt) {
     return (1 - amt) * start + amt * end;
@@ -191,65 +191,65 @@
   /* ==========================================================================
      4. Choreography Engine (Scroll Parallax Physics Loop)
      ========================================================================== */
-  
+
   function updateScrollChoreography(scroll) {
     // Total scroll distance for cinematic stage is ~2600px
 
-    // --- ACT 1: Hero & Intro Title (0px - 650px) ---
-    const titleProgress = segmentProgress(scroll, 0, 650);
+    // --- ACT 1: Hero & Intro Title (0px - 600px) ---
+    const titleProgress = segmentProgress(scroll, 0, 550);
     const titleY = titleProgress * -220; // Title ascends
     const titleScale = 1 + titleProgress * 0.25;
-    const titleOpacity = 1 - smoothstep(200, 600, scroll);
+    const titleOpacity = 1 - smoothstep(180, 550, scroll);
 
-    const introProgress = segmentProgress(scroll, 0, 500);
+    const introProgress = segmentProgress(scroll, 0, 480);
     const introCopyY = introProgress * 140; // Intro copy sinks
-    const introCopyOpacity = 1 - smoothstep(150, 480, scroll);
+    const introCopyOpacity = 1 - smoothstep(120, 450, scroll);
 
-    // --- ACT 2 Panel 1: Beehives & Extraction (560px - 1620px) ---
-    const splitOpen = segmentInOut(scroll, 560, 950, 1400, 1620);
+    // --- ACT 2 Panel 1: Beehives & Extraction (450px - 1550px) ---
+    const splitOpen = segmentInOut(scroll, 450, 850, 1300, 1550);
     const splitLeftX = (1 - splitOpen) * -100;
     const splitRightX = (1 - splitOpen) * 100;
 
     // --- FLYING BEE SCROLL FLIGHT PATH PHYSICS ---
     let beeX, beeY, beeScale, beeRotate, bridgeOpacity;
 
-    if (scroll < 650) {
-      const p = segmentProgress(scroll, 0, 650);
+    if (scroll < 600) {
+      const p = segmentProgress(scroll, 0, 600);
       beeX = lerp(22, 6, p);
       beeY = lerp(-40, 10, p);
       beeScale = lerp(1.0, 1.25, p);
       beeRotate = lerp(-12, 10, p);
       bridgeOpacity = 1;
-    } else if (scroll < 1650) {
-      const p = segmentProgress(scroll, 650, 1650);
-      beeX = lerp(6, -22, smoothstep(650, 1100, scroll));
+    } else if (scroll < 1600) {
+      const p = segmentProgress(scroll, 600, 1600);
+      beeX = lerp(6, -22, smoothstep(600, 1050, scroll));
       beeY = lerp(10, 35, p);
-      beeScale = lerp(1.25, 1.4, smoothstep(650, 1100, scroll));
-      beeRotate = lerp(10, 24, smoothstep(650, 1100, scroll));
+      beeScale = lerp(1.25, 1.4, smoothstep(600, 1050, scroll));
+      beeRotate = lerp(10, 24, smoothstep(600, 1050, scroll));
       bridgeOpacity = 1;
     } else {
-      const p = segmentProgress(scroll, 1650, 2600);
-      beeX = lerp(-22, 24, smoothstep(1650, 2150, scroll));
+      const p = segmentProgress(scroll, 1600, 2600);
+      beeX = lerp(-22, 24, smoothstep(1600, 2100, scroll));
       beeY = lerp(35, -20, p);
       beeScale = lerp(1.4, 1.1, p);
-      beeRotate = lerp(24, -18, smoothstep(1650, 2150, scroll));
+      beeRotate = lerp(24, -18, smoothstep(1600, 2100, scroll));
       bridgeOpacity = 1 - smoothstep(2200, 2600, scroll);
     }
 
     // Flowing honey / frame two drip opacity
-    const frame2Opacity = segmentInOut(scroll, 800, 1150, 1400, 1700);
+    const frame2Opacity = segmentInOut(scroll, 750, 1050, 1350, 1650);
 
-    // Story Panel 1 Visibility ("The hive is where it begins")
-    const panel2Opacity = segmentInOut(scroll, 680, 920, 1250, 1550);
-    const panel2Y = lerp(50, 0, smoothstep(680, 920, scroll)) + (scroll > 1250 ? (scroll - 1250) * -0.2 : 0);
+    // Story Panel 1 Visibility ("En la colmena comienza todo")
+    const panel2Opacity = segmentInOut(scroll, 450, 750, 1250, 1500);
+    const panel2Y = lerp(50, 0, smoothstep(450, 750, scroll)) + (scroll > 1250 ? (scroll - 1250) * -0.15 : 0);
 
-    // Story Panel 2 Visibility ("Every drop tells a story")
-    const panel3Opacity = segmentInOut(scroll, 1760, 2050, 2300, 2600);
-    const panel3Y = lerp(50, 0, smoothstep(1760, 2050, scroll)) + (scroll > 2300 ? (scroll - 2300) * -0.2 : 0);
+    // Story Panel 2 Visibility ("Cada gota cuenta una historia")
+    const panel3Opacity = segmentInOut(scroll, 1400, 1700, 2300, 2600);
+    const panel3Y = lerp(50, 0, smoothstep(1400, 1700, scroll)) + (scroll > 2300 ? (scroll - 2300) * -0.15 : 0);
 
     // Wildflower field saturation boost
-    const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 1600, 2100, 2400, 2600));
-    const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 1600, 2100, 2400, 2600));
+    const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 1400, 1900, 2300, 2600));
+    const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 1400, 1900, 2300, 2600));
 
     // Apply values to CSS Custom Properties `:root`
     root.style.setProperty('--title-y', `${titleY}px`);
@@ -287,13 +287,13 @@
     const shopEl = document.getElementById('shop');
     navLinks.forEach(link => link.classList.remove('active'));
 
-    const shopOffset = shopEl ? shopEl.offsetTop - 250 : 2500;
+    const shopOffset = shopEl ? shopEl.offsetTop - 180 : 2500;
 
     if (scroll >= shopOffset) {
       document.querySelector('.nav-link[href="#shop"]')?.classList.add('active');
-    } else if (scroll < 650) {
+    } else if (scroll < 450) {
       document.querySelector('.nav-link[href="#cinema"]')?.classList.add('active');
-    } else if (scroll < 1650) {
+    } else if (scroll < 1400) {
       document.querySelector('.nav-link[href="#beehives"]')?.classList.add('active');
     } else {
       document.querySelector('.nav-link[href="#harvest"]')?.classList.add('active');
@@ -303,8 +303,9 @@
   /* Main Animation Loop */
   function renderLoop() {
     state.scrollTarget = window.scrollY || window.pageYOffset;
-    
-    state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.12);
+
+    // Increased scroll lerp speed (0.28) for ultra-responsive, lag-free scrolling
+    state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.28);
     state.mouseXCurrent = lerp(state.mouseXCurrent, state.mouseXTarget, 0.08);
     state.mouseYCurrent = lerp(state.mouseYCurrent, state.mouseYTarget, 0.08);
 
@@ -331,11 +332,44 @@
     state.spotlightTargetY = y;
   }
 
-  // Mouse Move & Touch tracking
+  const cursorRing = document.getElementById('cursor-ring');
+  const siteHeaderEl = document.querySelector('.site-header');
+  let lastRecordedScrollY = window.scrollY || 0;
+
+  // Auto-hide header when scrolling down, reveal when scrolling up
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY || 0;
+    if (currentY > 140 && currentY > lastRecordedScrollY + 8) {
+      siteHeaderEl?.classList.add('header-hidden');
+    } else if (currentY < lastRecordedScrollY - 8 || currentY <= 80) {
+      siteHeaderEl?.classList.remove('header-hidden');
+    }
+    lastRecordedScrollY = currentY;
+  }, { passive: true });
+
+  // Mouse Move & Touch tracking with interactive target ring scaling
   window.addEventListener('mousemove', e => {
     state.mouseXTarget = (e.clientX / window.innerWidth - 0.5) * 2;
     state.mouseYTarget = (e.clientY / window.innerHeight - 0.5) * 2;
     updateSpotlightCoordinates(e.clientX, e.clientY);
+
+    // Auto-reveal header when cursor approaches top 90px
+    if (e.clientY < 90) {
+      siteHeaderEl?.classList.remove('header-hidden');
+    }
+
+    if (cursorRing) {
+      const isHoverable = e.target.closest('a, button, .sight-card, .tag-badge, .nav-link, .cart-trigger, .site-header');
+      if (isHoverable) {
+        cursorRing.style.width = '130px';
+        cursorRing.style.height = '130px';
+        cursorRing.style.borderColor = '#fef08a';
+      } else {
+        cursorRing.style.width = '96px';
+        cursorRing.style.height = '96px';
+        cursorRing.style.borderColor = 'rgba(254, 240, 138, 0.85)';
+      }
+    }
   });
 
   window.addEventListener('touchmove', e => {
@@ -345,37 +379,81 @@
   }, { passive: true });
 
   /* ==========================================================================
-     5. Product Slider Controls
+     5. Product Slider Controls & Touch Swipe
      ========================================================================== */
   const cardCount = 5;
 
   function updateSliderPosition() {
-    const cardWidth = window.innerWidth <= 900 ? 308 : 348;
+    const cardEl = document.querySelector('.sight-card');
+    const cardWidth = cardEl ? cardEl.offsetWidth + 28 : (window.innerWidth <= 900 ? 308 : 348);
     const shift = -state.sliderIndex * cardWidth;
     root.style.setProperty('--sights-shift', `${shift}px`);
 
-    const dots = sliderDots.querySelectorAll('.dot');
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === state.sliderIndex);
+    if (sliderDots) {
+      const dots = sliderDots.querySelectorAll('.dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === state.sliderIndex);
+      });
+    }
+  }
+
+  const prevBtn = document.getElementById('slider-prev');
+  const nextBtn = document.getElementById('slider-next');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      state.sliderIndex = (state.sliderIndex - 1 + cardCount) % cardCount;
+      updateSliderPosition();
     });
   }
 
-  document.getElementById('slider-prev').addEventListener('click', () => {
-    state.sliderIndex = (state.sliderIndex - 1 + cardCount) % cardCount;
-    updateSliderPosition();
-  });
-
-  document.getElementById('slider-next').addEventListener('click', () => {
-    state.sliderIndex = (state.sliderIndex + 1) % cardCount;
-    updateSliderPosition();
-  });
-
-  sliderDots.addEventListener('click', e => {
-    if (e.target.classList.contains('dot')) {
-      state.sliderIndex = parseInt(e.target.dataset.index, 10);
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      state.sliderIndex = (state.sliderIndex + 1) % cardCount;
       updateSliderPosition();
-    }
-  });
+    });
+  }
+
+  if (sliderDots) {
+    sliderDots.addEventListener('click', e => {
+      if (e.target.classList.contains('dot')) {
+        e.preventDefault();
+        state.sliderIndex = parseInt(e.target.dataset.index, 10);
+        updateSliderPosition();
+      }
+    });
+  }
+
+  // Touch Swipe & Mouse Drag Support for Product Slider
+  const sliderEl = document.querySelector('.sights-slider');
+  if (sliderEl) {
+    let startX = 0;
+    let isDragging = false;
+
+    sliderEl.addEventListener('touchstart', e => {
+      if (e.touches && e.touches[0]) {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      }
+    }, { passive: true });
+
+    sliderEl.addEventListener('touchend', e => {
+      if (!isDragging || !e.changedTouches || !e.changedTouches[0]) return;
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      if (Math.abs(diffX) > 40) {
+        if (diffX > 0) {
+          state.sliderIndex = (state.sliderIndex + 1) % cardCount;
+        } else {
+          state.sliderIndex = (state.sliderIndex - 1 + cardCount) % cardCount;
+        }
+        updateSliderPosition();
+      }
+      isDragging = false;
+    }, { passive: true });
+  }
 
   // Smooth Scroll Navigation for all anchor links & buttons
   document.addEventListener('click', e => {
@@ -388,9 +466,9 @@
       if (targetId === '#cinema' || targetId === '#home') {
         targetScroll = 0;
       } else if (targetId === '#beehives') {
-        targetScroll = 1100;
+        targetScroll = 950;
       } else if (targetId === '#harvest' || targetId === '#process') {
-        targetScroll = 2100;
+        targetScroll = 1850;
       } else if (targetId === '#shop') {
         const shopEl = document.getElementById('shop');
         targetScroll = shopEl ? shopEl.offsetTop - 70 : 2600;
@@ -435,14 +513,17 @@
     cartDrawerOverlay.classList.remove('open');
   }
 
-  cartBtn.addEventListener('click', openCart);
-  closeCartBtn.addEventListener('click', closeCart);
-  cartDrawerOverlay.addEventListener('click', e => {
-    if (e.target === cartDrawerOverlay) closeCart();
-  });
+  if (cartBtn) cartBtn.addEventListener('click', openCart);
+  if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+  if (cartDrawerOverlay) {
+    cartDrawerOverlay.addEventListener('click', e => {
+      if (e.target === cartDrawerOverlay) closeCart();
+    });
+  }
 
   function showToast(message) {
     const container = document.getElementById('toast-container');
+    if (!container) return;
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.textContent = message;
@@ -456,14 +537,15 @@
   }
 
   function renderCart() {
+    if (!cartItemList) return;
     cartItemList.innerHTML = '';
     let total = 0;
     let count = 0;
 
     if (state.cart.length === 0) {
-      emptyCartMsg.style.display = 'block';
+      if (emptyCartMsg) emptyCartMsg.style.display = 'block';
     } else {
-      emptyCartMsg.style.display = 'none';
+      if (emptyCartMsg) emptyCartMsg.style.display = 'none';
       state.cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
@@ -473,33 +555,35 @@
         li.className = 'cart-item';
         li.innerHTML = `
           <div class="cart-item-info">
-            <div class="cart-item-title">${item.name}</div>
-            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-            <div class="cart-item-qty">
+            <span class="cart-item-title">${item.name}</span>
+            <span class="cart-item-price">$${item.price.toFixed(2)} c/u</span>
+          </div>
+          <div class="cart-item-controls">
+            <div class="qty-controls">
               <button class="qty-btn dec-btn" data-id="${item.id}">-</button>
-              <span>${item.quantity}</span>
+              <span class="qty-num">${item.quantity}</span>
               <button class="qty-btn inc-btn" data-id="${item.id}">+</button>
             </div>
+            <button class="remove-item-btn" data-id="${item.id}" aria-label="Eliminar item">&times;</button>
           </div>
-          <button class="remove-item-btn" data-id="${item.id}">Remove</button>
         `;
         cartItemList.appendChild(li);
       });
     }
 
-    cartSubtotalEl.textContent = `$${total.toFixed(2)}`;
-    cartCountEl.textContent = count;
+    if (cartSubtotalEl) cartSubtotalEl.textContent = `$${total.toFixed(2)}`;
+    if (cartCountEl) cartCountEl.textContent = count;
   }
 
   function addToCart(id, name, price) {
-    const existing = state.cart.find(item => item.id === id);
+    const existing = state.cart.find(i => i.id === id);
     if (existing) {
       existing.quantity++;
     } else {
       state.cart.push({ id, name, price: parseFloat(price), quantity: 1 });
     }
     renderCart();
-    showToast(`" ${name} " ${i18n[currentLang].added_toast}`);
+    showToast(`${name} ${currentLang === 'es' ? 'agregado a tu cesta' : 'added to basket'}`);
   }
 
   document.addEventListener('click', e => {
@@ -524,21 +608,26 @@
     }
   });
 
-  checkoutBtn.addEventListener('click', () => {
-    if (state.cart.length === 0) {
-      alert(currentLang === 'es' ? 'Tu cesta está vacía.' : 'Your basket is empty.');
-      return;
-    }
-    showToast(currentLang === 'es' ? '¡Gracias por tu pedido artesanal!' : 'Thank you for your artisan order!');
-    state.cart = [];
-    renderCart();
-    closeCart();
-  });
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', () => {
+      if (state.cart.length === 0) {
+        alert(currentLang === 'es' ? 'Tu cesta está vacía.' : 'Your basket is empty.');
+        return;
+      }
+      showToast(currentLang === 'es' ? '¡Gracias por tu pedido artesanal!' : 'Thank you for your artisan order!');
+      state.cart = [];
+      renderCart();
+      closeCart();
+    });
+  }
 
   // Language Switcher Event
-  document.getElementById('lang-switcher').addEventListener('click', () => {
-    updateLanguage(currentLang === 'en' ? 'es' : 'en');
-  });
+  const langBtn = document.getElementById('lang-switcher');
+  if (langBtn) {
+    langBtn.addEventListener('click', () => {
+      updateLanguage(currentLang === 'en' ? 'es' : 'en');
+    });
+  }
 
   /* ==========================================================================
      7. Ambient Floating Bees Particle Canvas
