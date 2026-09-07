@@ -7,10 +7,7 @@ All production images are located in [`c:\Users\AlekeyG11\Documents\VsCode\bee_w
 | Asset File | Description | Resolution & Format |
 |------------|-------------|---------------------|
 | [`assets/logo_emblem.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/logo_emblem.webp) | Modern gold foil emblem of a honeybee inside a geometric hexagon | 1:1 Hexagon Badge |
-| [`assets/honey_jar_hero.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/honey_jar_hero.webp) | High-detail studio macro photo of artisan glass honey jar with glowing honey & wooden lid | 3:4 High-Res Hero |
-| [`assets/wildflower_field.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/wildflower_field.webp) | Sun-drenched wildflower valley landscape during golden hour sunrise | 16:9 Landscape Parallax |
 | [`assets/beehive_frame_light.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/beehive_frame_light.webp) | Macro photograph of a light wooden beehive frame overflowing with glistening raw honeycomb | 1:1 Square Frame |
-| [`assets/honey_flow_drip.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/honey_flow_drip.webp) | Macro photo of thick viscous golden honey dripping smoothly off a wooden honey dipper | 16:9 Panoramic Layer |
 
 ## 2. Design System & Palette
 
@@ -30,11 +27,8 @@ All production images are located in [`c:\Users\AlekeyG11\Documents\VsCode\bee_w
 
 1. **Sky Layer (`#layer-sky`):** Golden hour radial sunrise gradient.
 2. **Bee Glow Layer (`#layer-glow`):** Soft ambient light dust particle layer.
-3. **Wildflower Layer (`#layer-wildflowers`):** Photorealistic landscape [`assets/wildflower_field.jpg`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/wildflower_field.jpg).
-4. **Splitframe Beehive Left & Right (`#layer-split-left` / `#layer-split-right`):** Symmetric split frame photo [`assets/beehive_frame_light.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/beehive_frame_light.webp).
-5. **Golden Honey Jar ("The Bridge" - `#layer-jar`):** Glass jar photo [`assets/honey_jar_hero.jpg`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/honey_jar_hero.jpg).
-6. **Honey Flow Layer (`#layer-honey-flow`):** Viscous honey drip photo [`assets/honey_flow_drip.jpg`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/honey_flow_drip.jpg).
-7. **Ambient Bees Canvas (`#ambient-bees-canvas`):** Floating golden bee particles with organic flight physics.
+3. **Splitframe Beehive Left & Right (`#layer-split-left` / `#layer-split-right`):** Symmetric split frame photo [`assets/beehive_frame_light.webp`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/assets/beehive_frame_light.webp).
+4. **Ambient Bees Canvas (`#ambient-bees-canvas`):** Floating golden bee particles with organic flight physics.
 
 ## 5. Product Catalog (Sight Cards)
 
@@ -48,7 +42,6 @@ All production images are located in [`c:\Users\AlekeyG11\Documents\VsCode\bee_w
 
 ### Changing Background Images
 - **Base Atmospheric Background Layer 1 (`#layer-sky`):** Edit `.sky-gradient` in [`styles.css`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/styles.css) or replace `.sky-gradient` with an `<img>` tag in [`index.html`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/index.html).
-- **Spotlight Revealed Image Layer 2 (`.spotlight-reveal-layer`):** To change the revealed image, replace `src="assets/wildflower_field.jpg"` in line 83 of [`index.html`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/index.html) with your desired image path.
 
 ### Adjusting Spotlight Size & Softness
 - Open [`styles.css`](file:///c:/Users/AlekeyG11/Documents/VsCode/bee_web/styles.css) and edit the `--spotlight-radius` property in `:root`:
