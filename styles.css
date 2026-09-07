@@ -1378,23 +1378,115 @@ animation: ringPulse 2.5s infinite ease-in-out;
   }
 }
 
-/* 11. Responsive & Accessibility */
+/* 11. Performance Optimizations & Responsive Mobile Rules */
+.shop-standalone-section,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
 @media (max-width: 900px) {
+  .stage,
+  .world,
+  .scene-layer {
+    height: 100dvh;
+  }
+
+  .site-header {
+    padding: 12px 20px;
+  }
+
   .site-nav {
-    display: none;
+    display: flex;
+    gap: 8px;
+    background: rgba(255, 253, 247, 0.85);
+    padding: 6px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-link {
+    padding: 6px 12px;
+    font-size: 0.82rem;
   }
 
   .hero-title {
-    font-size: clamp(3.5rem, 20vw, 7rem);
+    font-size: clamp(3.2rem, 18vw, 6.5rem);
+    letter-spacing: 0.08em;
+  }
+
+  .flying-bee-layer {
+    width: clamp(220px, 60vw, 360px);
+    height: clamp(220px, 60vw, 360px);
+  }
+
+  .story-panel .panel-content {
+    padding: 24px 20px;
+    margin: 0 16px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .story-panel h2 {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+
+  .sights-slider-wrapper {
+    padding: 0 16px;
   }
 
   .sight-card {
-    flex: 0 0 280px;
-    height: 440px;
+    flex: 0 0 calc(100vw - 64px);
+    max-width: 320px;
+    height: auto;
+    min-height: 420px;
   }
 
   .facts-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cart-drawer {
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .cart-trigger,
+  .control-btn,
+  .add-cart-btn,
+  .cta-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 10px 14px;
+  }
+
+  .site-logo span {
+    font-size: 0.95rem;
+  }
+
+  .nav-link {
+    padding: 4px 8px;
+    font-size: 0.78rem;
+  }
+
+  .cart-trigger {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .sight-card {
+    flex: 0 0 calc(100vw - 40px);
   }
 }
 
