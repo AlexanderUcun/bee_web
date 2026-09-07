@@ -1385,65 +1385,77 @@ animation: ringPulse 2.5s infinite ease-in-out;
   contain-intrinsic-size: 1px 600px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .cinema-scroll {
+    height: 1100px;
+  }
+
   .stage,
   .world,
   .scene-layer {
     height: 100dvh;
   }
 
+  /* Disable heavy GPU operations on mobile for maximum battery & 120fps smoothness */
+  #ambient-bees-canvas,
+  .cursor-spotlight-halo,
+  .cursor-target-ring {
+    display: none !important;
+  }
+
+  .site-header,
+  .site-nav,
+  .sight-card,
+  .toast {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 253, 247, 0.97) !important;
+  }
+
   .site-header {
-    padding: 12px 20px;
+    padding: 10px 16px;
   }
 
   .site-nav {
     display: flex;
-    gap: 8px;
-    background: rgba(255, 253, 247, 0.85);
-    padding: 6px 12px;
+    gap: 6px;
+    padding: 4px 10px;
     border-radius: 20px;
-    backdrop-filter: blur(10px);
   }
 
   .nav-link {
-    padding: 6px 12px;
-    font-size: 0.82rem;
+    padding: 6px 10px;
+    font-size: 0.8rem;
   }
 
   .hero-title {
-    font-size: clamp(3.2rem, 18vw, 6.5rem);
-    letter-spacing: 0.08em;
+    font-size: clamp(3rem, 16vw, 5.5rem);
+    letter-spacing: 0.06em;
   }
 
   .flying-bee-layer {
-    width: clamp(220px, 60vw, 360px);
-    height: clamp(220px, 60vw, 360px);
+    width: clamp(200px, 55vw, 320px);
+    height: clamp(200px, 55vw, 320px);
   }
 
   .story-panel .panel-content {
-    padding: 24px 20px;
-    margin: 0 16px;
-    max-width: calc(100vw - 32px);
+    padding: 20px 16px;
+    margin: 0 12px;
+    max-width: calc(100vw - 24px);
   }
 
   .story-panel h2 {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    font-size: clamp(1.4rem, 5.5vw, 2rem);
   }
 
   .sights-slider-wrapper {
-    padding: 0 16px;
+    padding: 0 12px;
   }
 
   .sight-card {
-    flex: 0 0 calc(100vw - 64px);
-    max-width: 320px;
-    height: auto;
-    min-height: 420px;
-  }
-
-  .facts-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    flex: 0 0 calc(100vw - 48px);
+    max-width: 310px;
+    min-height: 400px;
   }
 
   .cart-drawer {
@@ -1457,12 +1469,6 @@ animation: ringPulse 2.5s infinite ease-in-out;
   .cta-button {
     min-height: 44px;
     min-width: 44px;
-  }
-
-  .toast-container {
-    left: 16px;
-    right: 16px;
-    bottom: 20px;
   }
 }
 

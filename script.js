@@ -318,31 +318,39 @@
     }
   }
 
+  const isMobileDevice = window.innerWidth <= 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   /* Main Animation Loop */
   function renderLoop() {
     state.scrollTarget = window.scrollY || window.pageYOffset;
 
-    // Fast, immediate scroll lerp tracking (0.55)
-    state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.55);
-    state.mouseXCurrent = lerp(state.mouseXCurrent, state.mouseXTarget, 0.08);
-    state.mouseYCurrent = lerp(state.mouseYCurrent, state.mouseYTarget, 0.08);
+    if (isMobileDevice) {
+      // Direct 1:1 scroll for mobile (zero input lag, native touch momentum)
+      state.scrollCurrent = state.scrollTarget;
+      updateScrollChoreography(state.scrollCurrent);
+    } else {
+      // Fast desktop lerp tracking
+      state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.55);
+      state.mouseXCurrent = lerp(state.mouseXCurrent, state.mouseXTarget, 0.08);
+      state.mouseYCurrent = lerp(state.mouseYCurrent, state.mouseYTarget, 0.08);
 
-    // Smooth spotlight lerp tracking
-    state.spotlightCurrentX = lerp(state.spotlightCurrentX, state.spotlightTargetX, 0.15);
-    state.spotlightCurrentY = lerp(state.spotlightCurrentY, state.spotlightTargetY, 0.15);
+      state.spotlightCurrentX = lerp(state.spotlightCurrentX, state.spotlightTargetX, 0.15);
+      state.spotlightCurrentY = lerp(state.spotlightCurrentY, state.spotlightTargetY, 0.15);
 
-    root.style.setProperty('--mx', state.mouseXCurrent);
-    root.style.setProperty('--my', state.mouseYCurrent);
-    root.style.setProperty('--spotlight-x', `${state.spotlightCurrentX.toFixed(2)}%`);
-    root.style.setProperty('--spotlight-y', `${state.spotlightCurrentY.toFixed(2)}%`);
+      root.style.setProperty('--mx', state.mouseXCurrent);
+      root.style.setProperty('--my', state.mouseYCurrent);
+      root.style.setProperty('--spotlight-x', `${state.spotlightCurrentX.toFixed(2)}%`);
+      root.style.setProperty('--spotlight-y', `${state.spotlightCurrentY.toFixed(2)}%`);
 
-    updateScrollChoreography(state.scrollCurrent);
+      updateScrollChoreography(state.scrollCurrent);
+    }
 
     requestAnimationFrame(renderLoop);
   }
 
   // Spotlight Mask Tracking (Mouse & Touch Events)
   function updateSpotlightCoordinates(clientX, clientY) {
+    if (isMobileDevice) return; // Skip spotlight calculation overhead on mobile GPUs
     const x = clamp((clientX / window.innerWidth) * 100, 0, 100);
     const y = clamp((clientY / window.innerHeight) * 100, 0, 100);
 
