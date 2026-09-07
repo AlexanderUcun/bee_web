@@ -88,68 +88,13 @@
             </div>
           </div>
 
-          <!-- Layer 6: Transparent Flying Golden Bee Element -->
+          <!-- Layer 6: Hyper-Realistic Flying Golden Bee Element with Multi-Pose Morphing -->
           <div class="scene-layer flying-bee-layer" id="layer-jar">
             <div class="flying-bee-wrapper" id="flying-bee">
-              <svg class="golden-bee-svg" viewBox="0 0 200 200" fill="none">
-                <!-- Soft Vector Bee Glow Aura -->
-                <circle cx="100" cy="100" r="95" fill="url(#beeAuraGrad)" />
-
-                <!-- Bee Wings -->
-                <g class="bee-wings">
-                  <ellipse cx="75" cy="70" rx="35" ry="55" transform="rotate(-35 75 70)" fill="url(#wingGrad)"
-                    opacity="0.85" stroke="#ca8a04" stroke-width="1.5" />
-                  <ellipse cx="60" cy="85" rx="22" ry="38" transform="rotate(-25 60 85)" fill="url(#wingGrad)"
-                    opacity="0.7" stroke="#ca8a04" stroke-width="1" />
-                  <ellipse cx="125" cy="70" rx="35" ry="55" transform="rotate(35 125 70)" fill="url(#wingGrad)"
-                    opacity="0.85" stroke="#ca8a04" stroke-width="1.5" />
-                  <ellipse cx="140" cy="85" rx="22" ry="38" transform="rotate(25 140 85)" fill="url(#wingGrad)"
-                    opacity="0.7" stroke="#ca8a04" stroke-width="1" />
-                </g>
-
-                <!-- Bee Body -->
-                <g class="bee-body">
-                  <polygon points="100,175 95,158 105,158" fill="#1f1610" />
-                  <ellipse cx="100" cy="130" rx="32" ry="38" fill="url(#bodyGrad)" stroke="#854d0e" stroke-width="2" />
-                  <path d="M72,118 Q100,126 128,118" stroke="#1f1610" stroke-width="6" stroke-linecap="round" />
-                  <path d="M70,132 Q100,140 130,132" stroke="#1f1610" stroke-width="7" stroke-linecap="round" />
-                  <path d="M74,146 Q100,154 126,146" stroke="#1f1610" stroke-width="6" stroke-linecap="round" />
-                  <circle cx="100" cy="92" r="24" fill="url(#thoraxGrad)" />
-                  <circle cx="100" cy="92" r="24" fill="none" stroke="#eab308" stroke-width="3"
-                    stroke-dasharray="4 2" />
-                  <circle cx="100" cy="68" r="16" fill="#1f1610" />
-                  <ellipse cx="91" cy="66" rx="5" ry="7" fill="#fef08a" />
-                  <ellipse cx="109" cy="66" rx="5" ry="7" fill="#fef08a" />
-                  <circle cx="91" cy="66" r="2" fill="#1f1610" />
-                  <circle cx="109" cy="66" r="2" fill="#1f1610" />
-                  <circle cx="92" cy="64" r="1.5" fill="#ffffff" />
-                  <circle cx="110" cy="64" r="1.5" fill="#ffffff" />
-                  <path d="M94,54 Q82,38 72,40" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round"
-                    fill="none" />
-                  <circle cx="72" cy="40" r="2.5" fill="#d97706" />
-                  <path d="M106,54 Q118,38 128,40" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round"
-                    fill="none" />
-                  <circle cx="128" cy="40" r="2.5" fill="#d97706" />
-                </g>
-
-                <defs>
-                  <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="rgba(255, 255, 255, 0.95)" />
-                    <stop offset="50%" stop-color="rgba(254, 240, 138, 0.8)" />
-                    <stop offset="100%" stop-color="rgba(234, 179, 8, 0.4)" />
-                  </linearGradient>
-                  <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#fde047" />
-                    <stop offset="50%" stop-color="#eab308" />
-                    <stop offset="100%" stop-color="#ca8a04" />
-                  </linearGradient>
-                  <radialGradient id="beeAuraGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#fef08a" stop-opacity="0.65" />
-                    <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.25" />
-                    <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
-                  </radialGradient>
-                </defs>
-              </svg>
+              <div class="bee-glow-halo"></div>
+              <img src="assets/bee_pose1.png" class="realistic-bee-img pose-1 active" id="bee-pose-1" alt="Abeja Melífera - Vuelo Horizontal">
+              <img src="assets/bee_pose2.png" class="realistic-bee-img pose-2" id="bee-pose-2" alt="Abeja Melífera - Inclinación Recolección">
+              <img src="assets/bee_pose3.png" class="realistic-bee-img pose-3" id="bee-pose-3" alt="Abeja Melífera - Carga de Polen Dorado">
             </div>
           </div>
 

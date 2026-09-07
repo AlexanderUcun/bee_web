@@ -210,30 +210,56 @@
     const splitLeftX = (1 - splitOpen) * -100;
     const splitRightX = (1 - splitOpen) * 100;
 
-    // --- FLYING BEE SCROLL FLIGHT PATH PHYSICS ---
+    // --- FLYING BEE SCROLL FLIGHT PATH & MULTI-POSE CHOREOGRAPHY ---
     let beeX, beeY, beeScale, beeRotate, bridgeOpacity;
+
+    // Interactive mouse displacement for living creature effect
+    const mouseShiftX = state.mouseXCurrent * 22; // vw offset
+    const mouseShiftY = state.mouseYCurrent * 35; // px offset
 
     if (scroll < 600) {
       const p = segmentProgress(scroll, 0, 600);
-      beeX = lerp(22, 6, p);
-      beeY = lerp(-40, 10, p);
-      beeScale = lerp(1.0, 1.25, p);
-      beeRotate = lerp(-12, 10, p);
+      beeX = lerp(20, 8, p) + (mouseShiftX * 0.15);
+      beeY = lerp(-30, 20, p) + (mouseShiftY * 0.4);
+      beeScale = lerp(1.05, 1.3, p);
+      beeRotate = lerp(-10, 8, p) + (state.mouseXCurrent * 5);
       bridgeOpacity = 1;
     } else if (scroll < 1600) {
       const p = segmentProgress(scroll, 600, 1600);
-      beeX = lerp(6, -22, smoothstep(600, 1050, scroll));
-      beeY = lerp(10, 35, p);
-      beeScale = lerp(1.25, 1.4, smoothstep(600, 1050, scroll));
-      beeRotate = lerp(10, 24, smoothstep(600, 1050, scroll));
+      beeX = lerp(8, -24, smoothstep(600, 1050, scroll)) + (mouseShiftX * 0.2);
+      beeY = lerp(20, 60, p) + (mouseShiftY * 0.5);
+      beeScale = lerp(1.3, 1.45, smoothstep(600, 1050, scroll));
+      beeRotate = lerp(8, 28, smoothstep(600, 1050, scroll)) + (state.mouseXCurrent * 8);
       bridgeOpacity = 1;
     } else {
       const p = segmentProgress(scroll, 1600, 2600);
-      beeX = lerp(-22, 24, smoothstep(1600, 2100, scroll));
-      beeY = lerp(35, -20, p);
-      beeScale = lerp(1.4, 1.1, p);
-      beeRotate = lerp(24, -18, smoothstep(1600, 2100, scroll));
+      beeX = lerp(-24, 26, smoothstep(1600, 2100, scroll)) + (mouseShiftX * 0.2);
+      beeY = lerp(60, -15, p) + (mouseShiftY * 0.5);
+      beeScale = lerp(1.45, 1.15, p);
+      beeRotate = lerp(28, -16, smoothstep(1600, 2100, scroll)) + (state.mouseXCurrent * 6);
       bridgeOpacity = 1 - smoothstep(2200, 2600, scroll);
+    }
+
+    // Dynamic Multi-Pose Morphing according to flight stages
+    const pose1El = document.getElementById('bee-pose-1');
+    const pose2El = document.getElementById('bee-pose-2');
+    const pose3El = document.getElementById('bee-pose-3');
+
+    if (scroll < 550) {
+      // Stage 1: Horizontal glide (Hero Section beside 'MIEL')
+      pose1El?.classList.add('active');
+      pose2El?.classList.remove('active');
+      pose3El?.classList.remove('active');
+    } else if (scroll < 1550) {
+      // Stage 2: Tilted diving flight (Colmenas Section)
+      pose1El?.classList.remove('active');
+      pose2El?.classList.add('active');
+      pose3El?.classList.remove('active');
+    } else {
+      // Stage 3: Hovering golden pollen carrier (Proceso Section)
+      pose1El?.classList.remove('active');
+      pose2El?.classList.remove('active');
+      pose3El?.classList.add('active');
     }
 
     // Flowing honey / frame two drip opacity
