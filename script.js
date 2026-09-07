@@ -193,20 +193,20 @@
      ========================================================================== */
 
   function updateScrollChoreography(scroll) {
-    // Total scroll distance for cinematic stage is ~2600px
+    // Total scroll distance for cinematic stage is ~1500px (fast, responsive)
 
-    // --- ACT 1: Hero & Intro Title (0px - 600px) ---
-    const titleProgress = segmentProgress(scroll, 0, 550);
+    // --- ACT 1: Hero & Intro Title (0px - 350px) ---
+    const titleProgress = segmentProgress(scroll, 0, 320);
     const titleY = titleProgress * -220; // Title ascends
     const titleScale = 1 + titleProgress * 0.25;
-    const titleOpacity = 1 - smoothstep(180, 550, scroll);
+    const titleOpacity = 1 - smoothstep(120, 320, scroll);
 
-    const introProgress = segmentProgress(scroll, 0, 480);
+    const introProgress = segmentProgress(scroll, 0, 280);
     const introCopyY = introProgress * 140; // Intro copy sinks
-    const introCopyOpacity = 1 - smoothstep(120, 450, scroll);
+    const introCopyOpacity = 1 - smoothstep(80, 260, scroll);
 
-    // --- ACT 2 Panel 1: Beehives & Extraction (450px - 1550px) ---
-    const splitOpen = segmentInOut(scroll, 450, 850, 1300, 1550);
+    // --- ACT 2 Panel 1: Beehives & Extraction (280px - 900px) ---
+    const splitOpen = segmentInOut(scroll, 260, 500, 750, 950);
     const splitLeftX = (1 - splitOpen) * -100;
     const splitRightX = (1 - splitOpen) * 100;
 
@@ -217,65 +217,57 @@
     const mouseShiftX = state.mouseXCurrent * 22; // vw offset
     const mouseShiftY = state.mouseYCurrent * 35; // px offset
 
-    if (scroll < 600) {
-      const p = segmentProgress(scroll, 0, 600);
+    if (scroll < 350) {
+      const p = segmentProgress(scroll, 0, 350);
       beeX = lerp(20, 8, p) + (mouseShiftX * 0.15);
       beeY = lerp(-30, 20, p) + (mouseShiftY * 0.4);
       beeScale = lerp(1.05, 1.3, p);
       beeRotate = lerp(-10, 8, p) + (state.mouseXCurrent * 5);
       bridgeOpacity = 1;
-    } else if (scroll < 1600) {
-      const p = segmentProgress(scroll, 600, 1600);
-      beeX = lerp(8, -24, smoothstep(600, 1050, scroll)) + (mouseShiftX * 0.2);
+    } else if (scroll < 950) {
+      const p = segmentProgress(scroll, 350, 950);
+      beeX = lerp(8, -24, smoothstep(350, 650, scroll)) + (mouseShiftX * 0.2);
       beeY = lerp(20, 60, p) + (mouseShiftY * 0.5);
-      beeScale = lerp(1.3, 1.45, smoothstep(600, 1050, scroll));
-      beeRotate = lerp(8, 28, smoothstep(600, 1050, scroll)) + (state.mouseXCurrent * 8);
+      beeScale = lerp(1.3, 1.45, smoothstep(350, 650, scroll));
+      beeRotate = lerp(8, 28, smoothstep(350, 650, scroll)) + (state.mouseXCurrent * 8);
       bridgeOpacity = 1;
     } else {
-      const p = segmentProgress(scroll, 1600, 2600);
-      beeX = lerp(-24, 26, smoothstep(1600, 2100, scroll)) + (mouseShiftX * 0.2);
+      const p = segmentProgress(scroll, 950, 1500);
+      beeX = lerp(-24, 26, smoothstep(950, 1250, scroll)) + (mouseShiftX * 0.2);
       beeY = lerp(60, -15, p) + (mouseShiftY * 0.5);
       beeScale = lerp(1.45, 1.15, p);
-      beeRotate = lerp(28, -16, smoothstep(1600, 2100, scroll)) + (state.mouseXCurrent * 6);
-      bridgeOpacity = 1 - smoothstep(2200, 2600, scroll);
+      beeRotate = lerp(28, -16, smoothstep(950, 1250, scroll)) + (state.mouseXCurrent * 6);
+      bridgeOpacity = 1 - smoothstep(1300, 1500, scroll);
     }
 
-    // Dynamic Multi-Pose Morphing according to flight stages
+    // Dynamic Multi-Pose Continuous Morphing according to scroll stage
     const pose1El = document.getElementById('bee-pose-1');
     const pose2El = document.getElementById('bee-pose-2');
     const pose3El = document.getElementById('bee-pose-3');
 
-    if (scroll < 550) {
-      // Stage 1: Horizontal glide (Hero Section beside 'MIEL')
-      pose1El?.classList.add('active');
-      pose2El?.classList.remove('active');
-      pose3El?.classList.remove('active');
-    } else if (scroll < 1550) {
-      // Stage 2: Tilted diving flight (Colmenas Section)
-      pose1El?.classList.remove('active');
-      pose2El?.classList.add('active');
-      pose3El?.classList.remove('active');
-    } else {
-      // Stage 3: Hovering golden pollen carrier (Proceso Section)
-      pose1El?.classList.remove('active');
-      pose2El?.classList.remove('active');
-      pose3El?.classList.add('active');
-    }
+    // Continuous smooth opacity transitions across scroll
+    const p1Opacity = 1 - smoothstep(200, 450, scroll);
+    const p2Opacity = segmentInOut(scroll, 220, 450, 780, 1000);
+    const p3Opacity = smoothstep(800, 1050, scroll);
+
+    if (pose1El) pose1El.style.opacity = p1Opacity.toFixed(3);
+    if (pose2El) pose2El.style.opacity = p2Opacity.toFixed(3);
+    if (pose3El) pose3El.style.opacity = p3Opacity.toFixed(3);
 
     // Flowing honey / frame two drip opacity
-    const frame2Opacity = segmentInOut(scroll, 750, 1050, 1350, 1650);
+    const frame2Opacity = segmentInOut(scroll, 450, 650, 850, 1050);
 
     // Story Panel 1 Visibility ("En la colmena comienza todo")
-    const panel2Opacity = segmentInOut(scroll, 450, 750, 1250, 1500);
-    const panel2Y = lerp(50, 0, smoothstep(450, 750, scroll)) + (scroll > 1250 ? (scroll - 1250) * -0.15 : 0);
+    const panel2Opacity = segmentInOut(scroll, 280, 480, 750, 920);
+    const panel2Y = lerp(50, 0, smoothstep(280, 480, scroll)) + (scroll > 750 ? (scroll - 750) * -0.15 : 0);
 
     // Story Panel 2 Visibility ("Cada gota cuenta una historia")
-    const panel3Opacity = segmentInOut(scroll, 1400, 1700, 2300, 2600);
-    const panel3Y = lerp(50, 0, smoothstep(1400, 1700, scroll)) + (scroll > 2300 ? (scroll - 2300) * -0.15 : 0);
+    const panel3Opacity = segmentInOut(scroll, 850, 1050, 1300, 1480);
+    const panel3Y = lerp(50, 0, smoothstep(850, 1050, scroll)) + (scroll > 1300 ? (scroll - 1300) * -0.15 : 0);
 
     // Wildflower field saturation boost
-    const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 1400, 1900, 2300, 2600));
-    const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 1400, 1900, 2300, 2600));
+    const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 850, 1100, 1300, 1500));
+    const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 850, 1100, 1300, 1500));
 
     // Apply values to CSS Custom Properties `:root`
     root.style.setProperty('--title-y', `${titleY}px`);
@@ -313,13 +305,13 @@
     const shopEl = document.getElementById('shop');
     navLinks.forEach(link => link.classList.remove('active'));
 
-    const shopOffset = shopEl ? shopEl.offsetTop - 180 : 2500;
+    const shopOffset = shopEl ? shopEl.offsetTop - 180 : 1500;
 
     if (scroll >= shopOffset) {
       document.querySelector('.nav-link[href="#shop"]')?.classList.add('active');
-    } else if (scroll < 450) {
+    } else if (scroll < 280) {
       document.querySelector('.nav-link[href="#cinema"]')?.classList.add('active');
-    } else if (scroll < 1400) {
+    } else if (scroll < 800) {
       document.querySelector('.nav-link[href="#beehives"]')?.classList.add('active');
     } else {
       document.querySelector('.nav-link[href="#harvest"]')?.classList.add('active');
@@ -330,8 +322,8 @@
   function renderLoop() {
     state.scrollTarget = window.scrollY || window.pageYOffset;
 
-    // Increased scroll lerp speed (0.28) for ultra-responsive, lag-free scrolling
-    state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.28);
+    // Fast, immediate scroll lerp tracking (0.55)
+    state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.55);
     state.mouseXCurrent = lerp(state.mouseXCurrent, state.mouseXTarget, 0.08);
     state.mouseYCurrent = lerp(state.mouseYCurrent, state.mouseYTarget, 0.08);
 
@@ -671,7 +663,8 @@
       height = canvas.height = window.innerHeight;
     });
 
-    const bees = Array.from({ length: 24 }, () => ({
+    const particleCount = window.innerWidth <= 768 ? 10 : 24;
+    const bees = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 1.5,

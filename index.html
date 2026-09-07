@@ -26,7 +26,7 @@
     <!-- Header Navigation -->
     <header class="site-header">
       <a href="#cinema" class="site-logo" id="header-logo">
-        <img src="assets/logo_emblem.webp" class="site-logo-img" alt="Honey Harvest Logo">
+        <img src="assets/logo_emblem.webp" class="site-logo-img" alt="Honey Harvest Logo" fetchpriority="high" decoding="sync">
         <span>Honey Harvest</span>
       </a>
 
@@ -60,14 +60,14 @@
           <!-- Layer 1: Light Luminous Honeycomb Base Background -->
           <div class="scene-layer light-base-layer" id="layer-light-base">
             <img src="assets/luminous_honeycomb_bright.webp" class="light-base-bg-img"
-              alt="Fondo Panal de Abeja Claro y Luminoso">
+              alt="Fondo Panal de Abeja Claro y Luminoso" fetchpriority="high" decoding="sync">
             <div class="light-base-overlay"></div>
           </div>
 
           <!-- Layer 2: Radiant Honey Harvest Reveal (Spotlight Mask Revealed) -->
           <div class="scene-layer back-img back-bazaar spotlight-reveal-layer" id="layer-honey-reveal">
             <img src="assets/luminous_honeycomb_bright.webp" class="honey-reveal-bg-img"
-              alt="Cosecha de Miel Dorada Pura">
+              alt="Cosecha de Miel Dorada Pura" decoding="async">
           </div>
 
           <!-- Interactive Cursor Spotlight Halo & Target Ring -->
@@ -77,14 +77,14 @@
           <!-- Layer 4: Beehive Split Left Frame -->
           <div class="scene-layer splitframe-left" id="layer-split-left">
             <div class="hive-split-img-wrapper hive-left">
-              <img src="assets/beehive_frame_light.webp" class="hive-frame-photo" alt="Marco de Colmena Izquierda">
+              <img src="assets/beehive_frame_light.webp" class="hive-frame-photo" alt="Marco de Colmena Izquierda" decoding="async">
             </div>
           </div>
 
           <!-- Layer 5: Beehive Split Right Frame -->
           <div class="scene-layer splitframe-right" id="layer-split-right">
             <div class="hive-split-img-wrapper hive-right">
-              <img src="assets/beehive_frame_light.webp" class="hive-frame-photo" alt="Marco de Colmena Derecha">
+              <img src="assets/beehive_frame_light.webp" class="hive-frame-photo" alt="Marco de Colmena Derecha" decoding="async">
             </div>
           </div>
 
@@ -92,9 +92,9 @@
           <div class="scene-layer flying-bee-layer" id="layer-jar">
             <div class="flying-bee-wrapper" id="flying-bee">
               <div class="bee-glow-halo"></div>
-              <img src="assets/bee_pose1.webp" class="realistic-bee-img pose-1 active" id="bee-pose-1" alt="Abeja Melífera - Vuelo Horizontal">
-              <img src="assets/bee_pose2.webp" class="realistic-bee-img pose-2" id="bee-pose-2" alt="Abeja Melífera - Inclinación Recolección">
-              <img src="assets/bee_pose3.webp" class="realistic-bee-img pose-3" id="bee-pose-3" alt="Abeja Melífera - Carga de Polen Dorado">
+              <img src="assets/bee_pose1.webp" class="realistic-bee-img pose-1 active" id="bee-pose-1" alt="Abeja Melífera - Vuelo Horizontal" fetchpriority="high" decoding="async">
+              <img src="assets/bee_pose2.webp" class="realistic-bee-img pose-2" id="bee-pose-2" alt="Abeja Melífera - Inclinación Recolección" decoding="async">
+              <img src="assets/bee_pose3.webp" class="realistic-bee-img pose-3" id="bee-pose-3" alt="Abeja Melífera - Carga de Polen Dorado" decoding="async">
             </div>
           </div>
 
