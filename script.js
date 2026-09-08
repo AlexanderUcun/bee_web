@@ -205,8 +205,8 @@
     const introCopyY = introProgress * 140; // Intro copy sinks
     const introCopyOpacity = 1 - smoothstep(80, 260, scroll);
 
-    // --- ACT 2 Panel 1: Beehives & Extraction (280px - 900px) ---
-    const splitOpen = segmentInOut(scroll, 260, 500, 750, 950);
+    // --- ACT 2 Panel 1: Beehives & Extraction ---
+    const splitOpen = smoothstep(240, 500, scroll);
     const splitLeftX = (1 - splitOpen) * -100;
     const splitRightX = (1 - splitOpen) * 100;
 
@@ -246,28 +246,28 @@
     const pose3El = document.getElementById('bee-pose-3');
 
     // Continuous smooth opacity transitions across scroll
-    const p1Opacity = 1 - smoothstep(200, 450, scroll);
-    const p2Opacity = segmentInOut(scroll, 220, 450, 780, 1000);
-    const p3Opacity = smoothstep(800, 1050, scroll);
+    const p1Opacity = 1 - smoothstep(180, 440, scroll);
+    const p2Opacity = segmentInOut(scroll, 240, 480, 680, 880);
+    const p3Opacity = smoothstep(680, 880, scroll);
 
     if (pose1El) pose1El.style.opacity = p1Opacity.toFixed(3);
     if (pose2El) pose2El.style.opacity = p2Opacity.toFixed(3);
     if (pose3El) pose3El.style.opacity = p3Opacity.toFixed(3);
 
     // Flowing honey / frame two drip opacity
-    const frame2Opacity = segmentInOut(scroll, 450, 650, 850, 1050);
+    const frame2Opacity = segmentInOut(scroll, 400, 600, 850, 1050);
 
     // Story Panel 1 Visibility ("En la colmena comienza todo")
-    const panel2Opacity = segmentInOut(scroll, 280, 480, 750, 920);
-    const panel2Y = lerp(50, 0, smoothstep(280, 480, scroll)) + (scroll > 750 ? (scroll - 750) * -0.15 : 0);
+    const panel2Opacity = segmentInOut(scroll, 260, 480, 680, 840);
+    const panel2Y = lerp(40, 0, smoothstep(260, 480, scroll)) + (scroll > 680 ? (scroll - 680) * -0.15 : 0);
 
     // Story Panel 2 Visibility ("Cada gota cuenta una historia")
-    const panel3Opacity = segmentInOut(scroll, 850, 1050, 1300, 1480);
-    const panel3Y = lerp(50, 0, smoothstep(850, 1050, scroll)) + (scroll > 1300 ? (scroll - 1300) * -0.15 : 0);
+    const panel3Opacity = segmentInOut(scroll, 680, 880, 1180, 1400);
+    const panel3Y = lerp(40, 0, smoothstep(680, 880, scroll)) + (scroll > 1180 ? (scroll - 1180) * -0.15 : 0);
 
     // Wildflower field saturation boost
-    const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 850, 1100, 1300, 1500));
-    const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 850, 1100, 1300, 1500));
+    const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 680, 900, 1180, 1400));
+    const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 680, 900, 1180, 1400));
 
     // Apply values to CSS Custom Properties `:root`
     root.style.setProperty('--title-y', `${titleY}px`);
@@ -309,9 +309,9 @@
 
     if (scroll >= shopOffset) {
       document.querySelector('.nav-link[href="#shop"]')?.classList.add('active');
-    } else if (scroll < 280) {
+    } else if (scroll < 260) {
       document.querySelector('.nav-link[href="#cinema"]')?.classList.add('active');
-    } else if (scroll < 800) {
+    } else if (scroll < 680) {
       document.querySelector('.nav-link[href="#beehives"]')?.classList.add('active');
     } else {
       document.querySelector('.nav-link[href="#harvest"]')?.classList.add('active');
@@ -492,12 +492,12 @@
       if (targetId === '#cinema' || targetId === '#home') {
         targetScroll = 0;
       } else if (targetId === '#beehives') {
-        targetScroll = 950;
+        targetScroll = 590;
       } else if (targetId === '#harvest' || targetId === '#process') {
-        targetScroll = 1850;
+        targetScroll = 880;
       } else if (targetId === '#shop') {
         const shopEl = document.getElementById('shop');
-        targetScroll = shopEl ? shopEl.offsetTop - 70 : 2600;
+        targetScroll = shopEl ? shopEl.offsetTop - 70 : 1600;
       }
 
       window.scrollTo({
@@ -513,7 +513,7 @@
       e.preventDefault();
       const shopEl = document.getElementById('shop');
       window.scrollTo({
-        top: shopEl ? shopEl.offsetTop - 70 : 2600,
+        top: shopEl ? shopEl.offsetTop - 70 : 1500,
         behavior: 'smooth'
       });
     });
