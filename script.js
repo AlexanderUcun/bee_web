@@ -1,39 +1,100 @@
 /**
- * Honey Harvest — Cinematic Parallax Engine & Interactive Web Application
+ * Honey Harvest — Cinematic Parallax Engine & WhatsApp Order Builder
  * Vanilla JS (ES6+) — Lightweight, ultra-smooth RAF animation engine
  */
+
+/* Easy-to-edit WhatsApp Target Number */
+const WHATSAPP_NUMBER = "573000000000";
 
 (function () {
   'use strict';
 
   /* ==========================================================================
-     1. Mathematical Helper Functions
+     1. Data Catalog (Artisan Honey Products & Variants)
      ========================================================================== */
+  const PRODUCTS = [
+    {
+      id: "miel-pura",
+      name: "Miel Pura de Abeja",
+      kicker: "Directo de la Colmena",
+      description: "Miel líquida natural, decantada en frío, sin aditivos ni pasteurización.",
+      image: "assets/product_miel_pura.webp",
+      badge: "Más Solicitado",
+      stock: 15,
+      variants: [
+        { label: "250g", price: 14000 },
+        { label: "500g", price: 26000, default: true },
+        { label: "1000g", price: 48000 }
+      ]
+    },
+    {
+      id: "panal-miel",
+      name: "Panal de Miel",
+      kicker: "Cera Virgen & Miel Cruda",
+      description: "Trozo de panal natural con miel dentro, tal como sale del cuadro, sin extraer.",
+      image: "assets/product_panal_miel.webp",
+      badge: "Edición Limitada",
+      stock: 8,
+      variants: [
+        { label: "Pieza Mediana", price: 18000, default: true },
+        { label: "Pieza Grande", price: 32000 }
+      ]
+    },
+    {
+      id: "polen-apicola",
+      name: "Polen Apícola",
+      kicker: "Superalimento Natural",
+      description: "Gránulos de polen recolectados en trampa con secado artesanal suave.",
+      image: "assets/product_polen_apicola.webp",
+      badge: "Fresco de Cosecha",
+      stock: 12,
+      variants: [
+        { label: "250g", price: 17000, default: true },
+        { label: "500g", price: 30000 }
+      ]
+    },
+    {
+      id: "cera-abeja",
+      name: "Cera de Abeja en Bloque",
+      kicker: "100% Cera Pura",
+      description: "Cera pura fundida y colada a mano, subproducto natural del desopercule.",
+      image: "assets/product_cera_abeja.webp",
+      badge: "Artesanal Pura",
+      stock: 20,
+      variants: [
+        { label: "Bloque 100g", price: 12000, default: true },
+        { label: "Bloque 200g", price: 20000 }
+      ]
+    }
+  ];
 
-  /** Linear Interpolation */
+  /* Price Currency Formatter ($14.000 COP) */
+  function formatCOP(num) {
+    return '$' + num.toLocaleString('es-CO');
+  }
+
+  /* ==========================================================================
+     2. Mathematical Helper Functions
+     ========================================================================== */
   function lerp(start, end, amt) {
     return (1 - amt) * start + amt * end;
   }
 
-  /** Clamp number between min and max */
   function clamp(val, min, max) {
     return Math.max(min, Math.min(max, val));
   }
 
-  /** Smoothstep interpolation (0 to 1) */
   function smoothstep(min, max, value) {
     const x = clamp((value - min) / (max - min), 0, 1);
     return x * x * (3 - 2 * x);
   }
 
-  /** Segment progress helper: returns normalized [0, 1] value for a scroll sub-range */
   function segmentProgress(scroll, start, end) {
     if (scroll <= start) return 0;
     if (scroll >= end) return 1;
     return (scroll - start) / (end - start);
   }
 
-  /** Segment In/Out progress helper: fades in then fades out over specified ranges */
   function segmentInOut(scroll, fadeInStart, fadeInEnd, fadeOutStart, fadeOutEnd) {
     if (scroll < fadeInStart) return 0;
     if (scroll <= fadeInEnd) return smoothstep(fadeInStart, fadeInEnd, scroll);
@@ -43,136 +104,10 @@
   }
 
   /* ==========================================================================
-     2. Internationalization Dictionaries (EN / ES)
-     ========================================================================== */
-  const i18n = {
-    en: {
-      nav_home: "Home",
-      nav_beehives: "Beehives",
-      nav_harvest: "Process",
-      nav_shop: "Shop",
-      hero_subtitle: "From wildflower fields to your table. Raw, unfiltered, and crafted by nature's smallest architects.",
-      tag_raw: "Raw & Unfiltered",
-      tag_natural: "100% Natural",
-      tag_artisan: "Artisan Sourced",
-      scroll_explore: "Scroll to Explore",
-      panel1_kicker: "OUR APIARY",
-      panel1_title: "The hive is where it begins.",
-      panel1_desc: "Thousands of bees working in concert, collecting nectar from wildflower fields across the countryside. Each colony is a carefully balanced ecosystem we nurture with respect from spring to harvest.",
-      fact1_label: "Bees per healthy hive",
-      fact2_label: "Active foraging season",
-      panel2_kicker: "PURE EXTRACTION",
-      panel2_title: "Every drop tells a story.",
-      panel2_desc: "We harvest only when the honey is perfectly mature, sealed by bees in wax. No high heating, no micro-filtering beyond what nature requires. This is real honey—rich with pollen, enzymes, and the unique terroir of seasonal blooms.",
-      panel2_cta: "↗ Explore our collection",
-      card1_kicker: "Seasonal Harvest",
-      card1_title: "Raw Spring Honey",
-      card1_desc: "First nectar of the season. Light, delicate floral notes from early wildflower blooms.",
-      card2_kicker: "Field Selection",
-      card2_title: "Wildflower Gold",
-      card2_desc: "Complex, deep amber. Our signature blend harvested from rich, diverse summer pastures.",
-      card3_kicker: "Artisan Texture",
-      card3_title: "Honey Butter Cream",
-      card3_desc: "Slow-whipped pure honey crystallized into a velvety, spreadable dream. Melts effortlessly.",
-      card4_kicker: "Natural Remedy",
-      card4_title: "Bee's Shield Propolis",
-      card4_desc: "Raw propolis extract tincture. Used by bees to protect the hive; packed with natural antioxidants.",
-      card5_kicker: "Traditional",
-      card5_title: "Pure Cut Honeycomb",
-      card5_desc: "Raw honey sealed in virgin beeswax. 100% edible comb cut directly from hive frames.",
-      add_to_cart: "Add to Cart",
-      cart_title: "Your Honey Basket",
-      empty_cart: "Your basket is currently empty.",
-      subtotal: "Subtotal",
-      checkout: "Proceed to Checkout",
-      footer_motto: "Sustainably collected, ethically crafted, 100% pure artisan honey.",
-      footer_col1_title: "Explore",
-      footer_col2_title: "Philosophy",
-      footer_p1: "Zero Chemical Sprays",
-      footer_p2: "Cold Extracted",
-      footer_p3: "Bee Welfare First",
-      added_toast: "added to your basket!",
-      shop_kicker: "ARTISAN SELECTION",
-      shop_main_title: "Pure Honey & Apiary Collection",
-      shop_main_subtitle: "Harvested in small batches with total respect for the bees and nature."
-    },
-    es: {
-      nav_home: "Inicio",
-      nav_beehives: "Colmenas",
-      nav_harvest: "Proceso",
-      nav_shop: "Tienda",
-      hero_subtitle: "De campos de flores silvestres a tu mesa. Pura, sin filtrar y elaborada por los arquitectos más pequeños de la naturaleza.",
-      tag_raw: "Cruda y Sin Filtrar",
-      tag_natural: "100% Natural",
-      tag_artisan: "Origen Artesanal",
-      scroll_explore: "Desliza para Explorar",
-      panel1_kicker: "NUESTRO APICULTURA",
-      panel1_title: "En la colmena comienza todo.",
-      panel1_desc: "Miles de abejas trabajando en armonía, recolectando néctar de flores silvestres. Cada colonia es un ecosistema cuidadosamente nutrido con respeto desde la primavera hasta la cosecha.",
-      fact1_label: "Abejas por colmena sana",
-      fact2_label: "Meses de temporada activa",
-      panel2_kicker: "EXTRACCIÓN PURA",
-      panel2_title: "Cada gota cuenta una historia.",
-      panel2_desc: "Cosechamos solo cuando la miel está perfectamente madura y sellada en cera por las abejas. Sin pasteurizar y sin microfiltrar. Miel auténtica, rica en polen, enzimas y terpenos naturales.",
-      panel2_cta: "↗ Explorar nuestra colección",
-      card1_kicker: "Cosecha de Temporada",
-      card1_title: "Miel Cruda de Primavera",
-      card1_desc: "Primer néctar de la estación. Notas florales suaves y delicadas de las primeras floraciones.",
-      card2_kicker: "Selección de Campo",
-      card2_title: "Oro de Flores Silvestres",
-      card2_desc: "Ámbar profundo y complejo. Nuestra mezcla emblemática recolectada en prados de verano.",
-      card3_kicker: "Textura Artesanal",
-      card3_title: "Crema de Miel y Manteca",
-      card3_desc: "Miel pura batida lentamente hasta lograr una textura suave y untable que se derrite al paladar.",
-      card4_kicker: "Remedio Natural",
-      card4_title: "Propóleo Escudo de Abeja",
-      card4_desc: "Tintura de extracto puro de propóleo. Utilizado por las abejas para proteger la colmena; lleno de antioxidantes.",
-      card5_kicker: "Tradicional",
-      card5_title: "Panal de Miel Puro",
-      card5_desc: "Miel cruda sellada en cera virgen de abejas. Panal 100% comestible cortado directo de los marcos.",
-      add_to_cart: "Añadir al Carrito",
-      cart_title: "Tu Cesta de Miel",
-      empty_cart: "Tu cesta está vacía actualmente.",
-      subtotal: "Subtotal",
-      checkout: "Proceder al Pago",
-      footer_motto: "Recolectada de forma sostenible, elaborada éticamente, miel 100% artesanal y pura.",
-      footer_col1_title: "Explorar",
-      footer_col2_title: "Filosofía",
-      footer_p1: "Sin Químicos ni Pesticidas",
-      footer_p2: "Extracción en Frío",
-      footer_p3: "Bienestar Apícola Primero",
-      added_toast: "¡añadido a tu cesta!",
-      shop_kicker: "SELECCIÓN ARTESANAL",
-      shop_main_title: "Colección de Miel Pura y Apicultura",
-      shop_main_subtitle: "Cosechada en lotes pequeños con total respeto por las abejas y la naturaleza."
-    }
-  };
-
-  let currentLang = 'en';
-
-  function updateLanguage(lang) {
-    currentLang = lang;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (i18n[lang][key]) {
-        el.textContent = i18n[lang][key];
-      }
-    });
-
-    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-    document.getElementById('lang-es').classList.toggle('active', lang === 'es');
-  }
-
-  /* ==========================================================================
-     3. State Management & DOM Elements
+     3. Application State & DOM Elements
      ========================================================================== */
   const root = document.documentElement;
-  const cinemaScroll = document.getElementById('cinema');
-  const sliderTrack = document.getElementById('slider-track');
-  const sliderDots = document.getElementById('slider-dots');
-  const exploreShopBtn = document.getElementById('explore-shop-btn');
 
-  // Interactive Target Values vs Lerped Values
   const state = {
     scrollCurrent: 0,
     scrollTarget: 0,
@@ -184,38 +119,29 @@
     spotlightCurrentY: 50,
     spotlightTargetX: 50,
     spotlightTargetY: 50,
-    sliderIndex: 0,
-    cart: []
+    order: [] // In-memory session order array: { id, name, variantLabel, price, quantity }
   };
 
   /* ==========================================================================
-     4. Choreography Engine (Scroll Parallax Physics Loop)
+     4. Parallax Choreography Engine
      ========================================================================== */
-
   function updateScrollChoreography(scroll) {
-    // Total scroll distance for cinematic stage is ~1500px (fast, responsive)
-
-    // --- ACT 1: Hero & Intro Title (0px - 350px) ---
     const titleProgress = segmentProgress(scroll, 0, 320);
-    const titleY = titleProgress * -220; // Title ascends
+    const titleY = titleProgress * -220;
     const titleScale = 1 + titleProgress * 0.25;
     const titleOpacity = 1 - smoothstep(120, 320, scroll);
 
     const introProgress = segmentProgress(scroll, 0, 280);
-    const introCopyY = introProgress * 140; // Intro copy sinks
+    const introCopyY = introProgress * 140;
     const introCopyOpacity = 1 - smoothstep(80, 260, scroll);
 
-    // --- ACT 2 Panel 1: Beehives & Extraction ---
     const splitOpen = smoothstep(240, 500, scroll);
     const splitLeftX = (1 - splitOpen) * -100;
     const splitRightX = (1 - splitOpen) * 100;
 
-    // --- FLYING BEE SCROLL FLIGHT PATH & MULTI-POSE CHOREOGRAPHY ---
     let beeX, beeY, beeScale, beeRotate, bridgeOpacity;
-
-    // Interactive mouse displacement for living creature effect
-    const mouseShiftX = state.mouseXCurrent * 22; // vw offset
-    const mouseShiftY = state.mouseYCurrent * 35; // px offset
+    const mouseShiftX = state.mouseXCurrent * 22;
+    const mouseShiftY = state.mouseYCurrent * 35;
 
     if (scroll < 350) {
       const p = segmentProgress(scroll, 0, 350);
@@ -240,12 +166,10 @@
       bridgeOpacity = 1 - smoothstep(1300, 1500, scroll);
     }
 
-    // Dynamic Multi-Pose Continuous Morphing according to scroll stage
     const pose1El = document.getElementById('bee-pose-1');
     const pose2El = document.getElementById('bee-pose-2');
     const pose3El = document.getElementById('bee-pose-3');
 
-    // Continuous smooth opacity transitions across scroll
     const p1Opacity = 1 - smoothstep(180, 440, scroll);
     const p2Opacity = segmentInOut(scroll, 240, 480, 680, 880);
     const p3Opacity = smoothstep(680, 880, scroll);
@@ -254,22 +178,17 @@
     if (pose2El) pose2El.style.opacity = p2Opacity.toFixed(3);
     if (pose3El) pose3El.style.opacity = p3Opacity.toFixed(3);
 
-    // Flowing honey / frame two drip opacity
     const frame2Opacity = segmentInOut(scroll, 400, 600, 850, 1050);
 
-    // Story Panel 1 Visibility ("En la colmena comienza todo")
     const panel2Opacity = segmentInOut(scroll, 260, 480, 680, 840);
     const panel2Y = lerp(40, 0, smoothstep(260, 480, scroll)) + (scroll > 680 ? (scroll - 680) * -0.15 : 0);
 
-    // Story Panel 2 Visibility ("Cada gota cuenta una historia")
     const panel3Opacity = segmentInOut(scroll, 680, 880, 1180, 1400);
     const panel3Y = lerp(40, 0, smoothstep(680, 880, scroll)) + (scroll > 1180 ? (scroll - 1180) * -0.15 : 0);
 
-    // Wildflower field saturation boost
     const bazaarSat = lerp(0.8, 1.4, segmentInOut(scroll, 680, 900, 1180, 1400));
     const bazaarBright = lerp(0.9, 1.15, segmentInOut(scroll, 680, 900, 1180, 1400));
 
-    // Apply values to CSS Custom Properties `:root`
     root.style.setProperty('--title-y', `${titleY}px`);
     root.style.setProperty('--title-scale', titleScale);
     root.style.setProperty('--title-opacity', titleOpacity);
@@ -302,34 +221,36 @@
 
   function updateActiveNav(scroll) {
     const navLinks = document.querySelectorAll('.nav-link');
-    const shopEl = document.getElementById('shop');
     navLinks.forEach(link => link.classList.remove('active'));
 
-    const shopOffset = shopEl ? shopEl.offsetTop - 180 : 1500;
+    const shopEl = document.getElementById('shop');
+    const nosotrosEl = document.getElementById('nosotros');
+    const comprarEl = document.getElementById('comprar');
 
-    if (scroll >= shopOffset) {
+    const shopTop = shopEl ? shopEl.offsetTop - 140 : 1500;
+    const nosotrosTop = nosotrosEl ? nosotrosEl.offsetTop - 140 : 2200;
+    const comprarTop = comprarEl ? comprarEl.offsetTop - 140 : 2800;
+
+    if (scroll >= comprarTop) {
+      document.querySelector('.nav-link[href="#comprar"]')?.classList.add('active');
+    } else if (scroll >= nosotrosTop) {
+      document.querySelector('.nav-link[href="#nosotros"]')?.classList.add('active');
+    } else if (scroll >= shopTop) {
       document.querySelector('.nav-link[href="#shop"]')?.classList.add('active');
-    } else if (scroll < 260) {
-      document.querySelector('.nav-link[href="#cinema"]')?.classList.add('active');
-    } else if (scroll < 680) {
-      document.querySelector('.nav-link[href="#beehives"]')?.classList.add('active');
     } else {
-      document.querySelector('.nav-link[href="#harvest"]')?.classList.add('active');
+      document.querySelector('.nav-link[href="#cinema"]')?.classList.add('active');
     }
   }
 
   const isMobileDevice = window.innerWidth <= 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  /* Main Animation Loop */
   function renderLoop() {
     state.scrollTarget = window.scrollY || window.pageYOffset;
 
     if (isMobileDevice) {
-      // Direct 1:1 scroll for mobile (zero input lag, native touch momentum)
       state.scrollCurrent = state.scrollTarget;
       updateScrollChoreography(state.scrollCurrent);
     } else {
-      // Fast desktop lerp tracking
       state.scrollCurrent = lerp(state.scrollCurrent, state.scrollTarget, 0.55);
       state.mouseXCurrent = lerp(state.mouseXCurrent, state.mouseXTarget, 0.08);
       state.mouseYCurrent = lerp(state.mouseYCurrent, state.mouseYTarget, 0.08);
@@ -348,12 +269,10 @@
     requestAnimationFrame(renderLoop);
   }
 
-  // Spotlight Mask Tracking (Mouse & Touch Events)
   function updateSpotlightCoordinates(clientX, clientY) {
-    if (isMobileDevice) return; // Skip spotlight calculation overhead on mobile GPUs
+    if (isMobileDevice) return;
     const x = clamp((clientX / window.innerWidth) * 100, 0, 100);
     const y = clamp((clientY / window.innerHeight) * 100, 0, 100);
-
     state.spotlightTargetX = x;
     state.spotlightTargetY = y;
   }
@@ -362,7 +281,6 @@
   const siteHeaderEl = document.querySelector('.site-header');
   let lastRecordedScrollY = window.scrollY || 0;
 
-  // Auto-hide header when scrolling down, reveal when scrolling up
   window.addEventListener('scroll', () => {
     const currentY = window.scrollY || 0;
     if (currentY > 140 && currentY > lastRecordedScrollY + 8) {
@@ -373,19 +291,17 @@
     lastRecordedScrollY = currentY;
   }, { passive: true });
 
-  // Mouse Move & Touch tracking with interactive target ring scaling
   window.addEventListener('mousemove', e => {
     state.mouseXTarget = (e.clientX / window.innerWidth - 0.5) * 2;
     state.mouseYTarget = (e.clientY / window.innerHeight - 0.5) * 2;
     updateSpotlightCoordinates(e.clientX, e.clientY);
 
-    // Auto-reveal header when cursor approaches top 90px
     if (e.clientY < 90) {
       siteHeaderEl?.classList.remove('header-hidden');
     }
 
     if (cursorRing) {
-      const isHoverable = e.target.closest('a, button, .sight-card, .tag-badge, .nav-link, .cart-trigger, .site-header');
+      const isHoverable = e.target.closest('a, button, .product-card, .tag-badge, .nav-link, .header-wa-btn');
       if (isHoverable) {
         cursorRing.style.width = '130px';
         cursorRing.style.height = '130px';
@@ -398,161 +314,114 @@
     }
   });
 
-  window.addEventListener('touchmove', e => {
-    if (e.touches && e.touches[0]) {
-      updateSpotlightCoordinates(e.touches[0].clientX, e.touches[0].clientY);
-    }
-  }, { passive: true });
-
   /* ==========================================================================
-     5. Product Slider Controls & Touch Swipe
+     5. Render Products & Variant Switcher Logic
      ========================================================================== */
-  const cardCount = 5;
+  function renderProducts() {
+    const container = document.getElementById('products-grid-container');
+    if (!container) return;
 
-  function updateSliderPosition() {
-    const cardEl = document.querySelector('.sight-card');
-    const cardWidth = cardEl ? cardEl.offsetWidth + 28 : (window.innerWidth <= 900 ? 308 : 348);
-    const shift = -state.sliderIndex * cardWidth;
-    root.style.setProperty('--sights-shift', `${shift}px`);
+    container.innerHTML = PRODUCTS.map(product => {
+      const defaultVarIndex = product.variants.findIndex(v => v.default) !== -1
+        ? product.variants.findIndex(v => v.default)
+        : 0;
+      const currentVariant = product.variants[defaultVarIndex];
 
-    if (sliderDots) {
-      const dots = sliderDots.querySelectorAll('.dot');
-      dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === state.sliderIndex);
-      });
-    }
+      return `
+        <article class="product-card" data-id="${product.id}" data-selected-variant="${defaultVarIndex}">
+          <div class="product-card-inner">
+            <div class="product-image-container">
+              <span class="product-stock-badge">Lote limitado &bull; Quedan ${product.stock} un.</span>
+              <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy" decoding="async">
+              <span class="product-tag-badge">${product.badge}</span>
+            </div>
+            <div class="product-card-body">
+              <span class="product-kicker">${product.kicker}</span>
+              <h3 class="product-title">${product.name}</h3>
+              <p class="product-desc">${product.description}</p>
+
+              <div class="variant-selector-group">
+                <span class="variant-label-title">Presentación / Tamaño:</span>
+                <div class="variant-pills">
+                  ${product.variants.map((v, idx) => `
+                    <button type="button" class="variant-pill ${idx === defaultVarIndex ? 'active' : ''}" 
+                      data-variant-index="${idx}">
+                      ${v.label}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="product-card-footer">
+                <div class="price-display">
+                  <span class="price-label">Precio:</span>
+                  <span class="price-amount" id="price-${product.id}">${formatCOP(currentVariant.price)}</span>
+                </div>
+
+                <div class="action-buttons-group">
+                  <button type="button" class="add-to-order-btn" data-id="${product.id}">
+                    <span>+ Añadir al pedido</span>
+                  </button>
+                  <button type="button" class="buy-now-wa-btn" data-id="${product.id}">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.76.459 3.477 1.33 4.988l-1.416 5.172 5.291-1.388a9.948 9.948 0 0 0 4.782 1.218h.004c5.504 0 9.985-4.478 9.986-9.985 0-2.668-1.038-5.176-2.924-7.062a9.92 9.92 0 0 0-7.063-2.929zm5.952 14.154c-.252.71-1.246 1.306-1.722 1.368-.456.059-1.042.102-3.361-.856-2.668-1.103-4.385-3.83-4.519-4.009-.133-.178-1.082-1.439-1.082-2.744 0-1.305.684-1.947.928-2.207.244-.261.533-.326.711-.326.177 0 .355.002.511.01.167.008.391-.063.611.465.222.533.755 1.84.822 1.974.066.133.111.289.022.466-.089.178-.133.289-.266.445-.133.156-.28.349-.4.469-.133.133-.272.277-.117.543.156.266.692 1.144 1.488 1.853 1.023.913 1.887 1.196 2.153 1.329.266.133.422.111.577-.066.155-.178.666-.777.844-1.044.178-.266.355-.222.599-.133.244.089 1.555.733 1.822.866.266.133.444.2.511.311.066.111.066.644-.186 1.354z"/>
+                    </svg>
+                    <span>Comprar por WhatsApp</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
   }
 
-  const prevBtn = document.getElementById('slider-prev');
-  const nextBtn = document.getElementById('slider-next');
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      state.sliderIndex = (state.sliderIndex - 1 + cardCount) % cardCount;
-      updateSliderPosition();
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      state.sliderIndex = (state.sliderIndex + 1) % cardCount;
-      updateSliderPosition();
-    });
-  }
-
-  if (sliderDots) {
-    sliderDots.addEventListener('click', e => {
-      if (e.target.classList.contains('dot')) {
-        e.preventDefault();
-        state.sliderIndex = parseInt(e.target.dataset.index, 10);
-        updateSliderPosition();
-      }
-    });
-  }
-
-  // Touch Swipe & Mouse Drag Support for Product Slider
-  const sliderEl = document.querySelector('.sights-slider');
-  if (sliderEl) {
-    let startX = 0;
-    let isDragging = false;
-
-    sliderEl.addEventListener('touchstart', e => {
-      if (e.touches && e.touches[0]) {
-        startX = e.touches[0].clientX;
-        isDragging = true;
-      }
-    }, { passive: true });
-
-    sliderEl.addEventListener('touchend', e => {
-      if (!isDragging || !e.changedTouches || !e.changedTouches[0]) return;
-      const endX = e.changedTouches[0].clientX;
-      const diffX = startX - endX;
-      if (Math.abs(diffX) > 40) {
-        if (diffX > 0) {
-          state.sliderIndex = (state.sliderIndex + 1) % cardCount;
-        } else {
-          state.sliderIndex = (state.sliderIndex - 1 + cardCount) % cardCount;
-        }
-        updateSliderPosition();
-      }
-      isDragging = false;
-    }, { passive: true });
-  }
-
-  // Smooth Scroll Navigation for all anchor links & buttons
+  // Variant switching event delegation
   document.addEventListener('click', e => {
-    const anchor = e.target.closest('a[href^="#"]');
-    if (anchor) {
-      e.preventDefault();
-      const targetId = anchor.getAttribute('href');
-      let targetScroll = 0;
+    const pill = e.target.closest('.variant-pill');
+    if (pill) {
+      const card = pill.closest('.product-card');
+      const productId = card.dataset.id;
+      const variantIndex = parseInt(pill.dataset.variantIndex, 10);
+      const product = PRODUCTS.find(p => p.id === productId);
 
-      if (targetId === '#cinema' || targetId === '#home') {
-        targetScroll = 0;
-      } else if (targetId === '#beehives') {
-        targetScroll = 590;
-      } else if (targetId === '#harvest' || targetId === '#process') {
-        targetScroll = 880;
-      } else if (targetId === '#shop') {
-        const shopEl = document.getElementById('shop');
-        targetScroll = shopEl ? shopEl.offsetTop - 70 : 1600;
-      }
+      if (!product) return;
 
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth'
+      // Update active pill styling inside card
+      card.querySelectorAll('.variant-pill').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === variantIndex);
       });
+
+      // Store selected variant index in card data attribute
+      card.dataset.selectedVariant = variantIndex;
+
+      // Update card price display
+      const priceEl = document.getElementById(`price-${productId}`);
+      if (priceEl) {
+        priceEl.textContent = formatCOP(product.variants[variantIndex].price);
+      }
     }
   });
 
-  // Smooth Scroll CTA button
-  if (exploreShopBtn) {
-    exploreShopBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const shopEl = document.getElementById('shop');
-      window.scrollTo({
-        top: shopEl ? shopEl.offsetTop - 70 : 1500,
-        behavior: 'smooth'
-      });
-    });
-  }
-
   /* ==========================================================================
-     6. Shopping Cart & Drawer Logic
+     6. WhatsApp Order Builder & Dynamic Message Generator
      ========================================================================== */
-  const cartDrawerOverlay = document.getElementById('cart-drawer-overlay');
-  const cartBtn = document.getElementById('cart-btn');
-  const closeCartBtn = document.getElementById('close-cart-btn');
-  const cartItemList = document.getElementById('cart-item-list');
-  const emptyCartMsg = document.getElementById('empty-cart-msg');
-  const cartSubtotalEl = document.getElementById('cart-subtotal');
-  const cartCountEl = document.getElementById('cart-count');
-  const checkoutBtn = document.getElementById('checkout-btn');
-
-  function openCart() {
-    cartDrawerOverlay.classList.add('open');
-  }
-
-  function closeCart() {
-    cartDrawerOverlay.classList.remove('open');
-  }
-
-  if (cartBtn) cartBtn.addEventListener('click', openCart);
-  if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
-  if (cartDrawerOverlay) {
-    cartDrawerOverlay.addEventListener('click', e => {
-      if (e.target === cartDrawerOverlay) closeCart();
-    });
-  }
+  const waFloatBtn = document.getElementById('whatsapp-order-float');
+  const waBadgeCount = document.getElementById('wa-badge-count');
+  const waFloatTotal = document.getElementById('wa-float-total');
+  const modalOverlay = document.getElementById('whatsapp-modal-overlay');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+  const orderItemsList = document.getElementById('order-items-list');
+  const orderTotalPriceEl = document.getElementById('order-total-price');
+  const sendOrderWaBtn = document.getElementById('send-order-wa-btn');
 
   function showToast(message) {
     const container = document.getElementById('toast-container');
     if (!container) return;
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.textContent = message;
+    toast.innerHTML = message;
     container.appendChild(toast);
 
     setTimeout(() => {
@@ -562,96 +431,253 @@
     }, 3000);
   }
 
-  function renderCart() {
-    if (!cartItemList) return;
-    cartItemList.innerHTML = '';
-    let total = 0;
-    let count = 0;
+  function addToOrder(productId) {
+    const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+    if (!card) return;
 
-    if (state.cart.length === 0) {
-      if (emptyCartMsg) emptyCartMsg.style.display = 'block';
+    const variantIndex = parseInt(card.dataset.selectedVariant || "0", 10);
+    const product = PRODUCTS.find(p => p.id === productId);
+    const variant = product.variants[variantIndex];
+
+    const existing = state.order.find(item => item.id === productId && item.variantLabel === variant.label);
+    if (existing) {
+      existing.quantity += 1;
     } else {
-      if (emptyCartMsg) emptyCartMsg.style.display = 'none';
-      state.cart.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
-        count += item.quantity;
-
-        const li = document.createElement('li');
-        li.className = 'cart-item';
-        li.innerHTML = `
-          <div class="cart-item-info">
-            <span class="cart-item-title">${item.name}</span>
-            <span class="cart-item-price">$${item.price.toFixed(2)} c/u</span>
-          </div>
-          <div class="cart-item-controls">
-            <div class="qty-controls">
-              <button class="qty-btn dec-btn" data-id="${item.id}">-</button>
-              <span class="qty-num">${item.quantity}</span>
-              <button class="qty-btn inc-btn" data-id="${item.id}">+</button>
-            </div>
-            <button class="remove-item-btn" data-id="${item.id}" aria-label="Eliminar item">&times;</button>
-          </div>
-        `;
-        cartItemList.appendChild(li);
+      state.order.push({
+        id: productId,
+        name: product.name,
+        variantLabel: variant.label,
+        price: variant.price,
+        quantity: 1
       });
     }
 
-    if (cartSubtotalEl) cartSubtotalEl.textContent = `$${total.toFixed(2)}`;
-    if (cartCountEl) cartCountEl.textContent = count;
+    updateOrderUI();
+    showToast(`✓ Agregado: <strong>${product.name} (${variant.label})</strong>`);
   }
 
-  function addToCart(id, name, price) {
-    const existing = state.cart.find(i => i.id === id);
-    if (existing) {
-      existing.quantity++;
+  function updateOrderUI() {
+    let totalItems = 0;
+    let totalPrice = 0;
+
+    state.order.forEach(item => {
+      totalItems += item.quantity;
+      totalPrice += item.price * item.quantity;
+    });
+
+    if (waBadgeCount) waBadgeCount.textContent = totalItems;
+    if (waFloatTotal) waFloatTotal.textContent = formatCOP(totalPrice);
+
+    if (totalItems > 0) {
+      waFloatBtn?.classList.remove('hidden');
     } else {
-      state.cart.push({ id, name, price: parseFloat(price), quantity: 1 });
+      waFloatBtn?.classList.add('hidden');
+      closeModal();
     }
-    renderCart();
-    showToast(`${name} ${currentLang === 'es' ? 'agregado a tu cesta' : 'added to basket'}`);
+
+    renderModalItems();
   }
 
+  function renderModalItems() {
+    if (!orderItemsList) return;
+    orderItemsList.innerHTML = '';
+    let total = 0;
+
+    if (state.order.length === 0) {
+      orderItemsList.innerHTML = '<p class="empty-order-msg">Tu pedido está vacío actualmente.</p>';
+    } else {
+      state.order.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const row = document.createElement('div');
+        row.className = 'order-item-row';
+        row.innerHTML = `
+          <div class="order-item-info">
+            <span class="order-item-title">${item.name}</span>
+            <span class="order-item-meta">${item.variantLabel} &bull; ${formatCOP(item.price)} c/u</span>
+          </div>
+          <div class="order-item-controls">
+            <button type="button" class="qty-btn dec-qty" data-index="${index}">-</button>
+            <span class="qty-num">${item.quantity}</span>
+            <button type="button" class="qty-btn inc-qty" data-index="${index}">+</button>
+            <button type="button" class="remove-item-btn" data-index="${index}" aria-label="Quitar item">&times;</button>
+          </div>
+        `;
+        orderItemsList.appendChild(row);
+      });
+    }
+
+    if (orderTotalPriceEl) orderTotalPriceEl.textContent = formatCOP(total);
+    updateWhatsAppUrl();
+  }
+
+  function updateWhatsAppUrl() {
+    if (!sendOrderWaBtn) return;
+    if (state.order.length === 0) {
+      sendOrderWaBtn.href = "#";
+      return;
+    }
+
+    let lines = ["Hola! Quiero hacer este pedido:"];
+    let total = 0;
+
+    state.order.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      lines.push(`- ${item.name} (${item.variantLabel}) x${item.quantity} = ${formatCOP(itemTotal)}`);
+    });
+
+    lines.push(`Total estimado: ${formatCOP(total)}`);
+    lines.push("¿Me confirman disponibilidad y forma de entrega?");
+
+    const fullMessage = lines.join("\n");
+    sendOrderWaBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(fullMessage)}`;
+  }
+
+  function buySingleViaWhatsApp(productId) {
+    const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+    if (!card) return;
+    const variantIndex = parseInt(card.dataset.selectedVariant || "0", 10);
+    const product = PRODUCTS.find(p => p.id === productId);
+    const variant = product.variants[variantIndex];
+
+    const message = `Hola! Quiero hacer este pedido:\n- ${product.name} (${variant.label}) x1 = ${formatCOP(variant.price)}\nTotal estimado: ${formatCOP(variant.price)}\n¿Me confirman disponibilidad y forma de entrega?`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
+  function openModal() {
+    if (state.order.length === 0) return;
+    renderModalItems();
+    modalOverlay?.classList.add('open');
+    modalOverlay?.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeModal() {
+    modalOverlay?.classList.remove('open');
+    modalOverlay?.setAttribute('aria-hidden', 'true');
+  }
+
+  // Event Listeners for Order Actions
   document.addEventListener('click', e => {
-    if (e.target.classList.contains('add-cart-btn')) {
-      const btn = e.target;
-      addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price);
-    } else if (e.target.classList.contains('inc-btn')) {
-      const item = state.cart.find(i => i.id === e.target.dataset.id);
-      if (item) { item.quantity++; renderCart(); }
-    } else if (e.target.classList.contains('dec-btn')) {
-      const item = state.cart.find(i => i.id === e.target.dataset.id);
-      if (item) {
-        item.quantity--;
-        if (item.quantity <= 0) {
-          state.cart = state.cart.filter(i => i.id !== e.target.dataset.id);
-        }
-        renderCart();
+    // Add to order button
+    const addBtn = e.target.closest('.add-to-order-btn');
+    if (addBtn) {
+      addToOrder(addBtn.dataset.id);
+      return;
+    }
+
+    // Direct Buy Now WhatsApp button
+    const buyWaBtn = e.target.closest('.buy-now-wa-btn');
+    if (buyWaBtn) {
+      buySingleViaWhatsApp(buyWaBtn.dataset.id);
+      return;
+    }
+
+    // Header WhatsApp CTA button
+    const headerWaBtn = e.target.closest('#header-wa-btn');
+    if (headerWaBtn) {
+      if (state.order.length > 0) {
+        openModal();
+      } else {
+        const text = "Hola! Quisiera información sobre su cosecha de miel artesanal en Tocancipá.";
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
       }
-    } else if (e.target.classList.contains('remove-item-btn')) {
-      state.cart = state.cart.filter(i => i.id !== e.target.dataset.id);
-      renderCart();
+      return;
+    }
+
+    // Floating Order Button
+    if (e.target.closest('#whatsapp-order-float')) {
+      openModal();
+      return;
+    }
+
+    // Close Modal Button
+    if (e.target.closest('#close-modal-btn') || e.target === modalOverlay) {
+      closeModal();
+      return;
+    }
+
+    // Modal Qty controls & item removal
+    const incBtn = e.target.closest('.inc-qty');
+    if (incBtn) {
+      const idx = parseInt(incBtn.dataset.index, 10);
+      if (state.order[idx]) {
+        state.order[idx].quantity += 1;
+        updateOrderUI();
+      }
+      return;
+    }
+
+    const decBtn = e.target.closest('.dec-qty');
+    if (decBtn) {
+      const idx = parseInt(decBtn.dataset.index, 10);
+      if (state.order[idx]) {
+        state.order[idx].quantity -= 1;
+        if (state.order[idx].quantity <= 0) {
+          state.order.splice(idx, 1);
+        }
+        updateOrderUI();
+      }
+      return;
+    }
+
+    const removeBtn = e.target.closest('.remove-item-btn');
+    if (removeBtn) {
+      const idx = parseInt(removeBtn.dataset.index, 10);
+      state.order.splice(idx, 1);
+      updateOrderUI();
+      return;
     }
   });
 
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-      if (state.cart.length === 0) {
-        alert(currentLang === 'es' ? 'Tu cesta está vacía.' : 'Your basket is empty.');
-        return;
-      }
-      showToast(currentLang === 'es' ? '¡Gracias por tu pedido artesanal!' : 'Thank you for your artisan order!');
-      state.cart = [];
-      renderCart();
-      closeCart();
-    });
-  }
+  // Esc Key to close modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modalOverlay?.classList.contains('open')) {
+      closeModal();
+    }
+  });
 
-  // Language Switcher Event
-  const langBtn = document.getElementById('lang-switcher');
-  if (langBtn) {
-    langBtn.addEventListener('click', () => {
-      updateLanguage(currentLang === 'en' ? 'es' : 'en');
+  // Smooth Scroll Anchor Navigation
+  document.addEventListener('click', e => {
+    const anchor = e.target.closest('a[href^="#"]');
+    if (anchor && anchor.getAttribute('href') !== '#') {
+      const targetId = anchor.getAttribute('href');
+      if (targetId === '#') return;
+
+      e.preventDefault();
+      let targetScroll = 0;
+
+      if (targetId === '#cinema' || targetId === '#home') {
+        targetScroll = 0;
+      } else if (targetId === '#shop') {
+        const shopEl = document.getElementById('shop');
+        targetScroll = shopEl ? shopEl.offsetTop - 70 : 1500;
+      } else if (targetId === '#nosotros') {
+        const nosEl = document.getElementById('nosotros');
+        targetScroll = nosEl ? nosEl.offsetTop - 70 : 2200;
+      } else if (targetId === '#comprar') {
+        const compEl = document.getElementById('comprar');
+        targetScroll = compEl ? compEl.offsetTop - 70 : 2800;
+      }
+
+      window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth'
+      });
+    }
+  });
+
+  const exploreShopBtn = document.getElementById('explore-shop-btn');
+  if (exploreShopBtn) {
+    exploreShopBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const shopEl = document.getElementById('shop');
+      window.scrollTo({
+        top: shopEl ? shopEl.offsetTop - 70 : 1500,
+        behavior: 'smooth'
+      });
     });
   }
 
@@ -708,10 +734,10 @@
     drawBees();
   }
 
-  /* Initialize Application */
+  /* Initialization */
   document.addEventListener('DOMContentLoaded', () => {
+    renderProducts();
     initAmbientBees();
-    updateSliderPosition();
     renderLoop();
   });
 
